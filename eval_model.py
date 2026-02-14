@@ -1,6 +1,8 @@
 import asyncio
 import html as html_module
 import json
+import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
@@ -12,7 +14,7 @@ MODEL_NAME = "my-finetuned-model"
 MODEL_BASE_URL = "http://localhost:11434/v1"  # Ollama default; change for vLLM etc.
 MODEL_API_KEY = "ollama"  # Ollama doesn't need a real key
 DATASET_FILE = "receipt_dataset.jsonl"
-OUTPUT_HTML = "eval_report.html"
+EVAL_DIR = "eval"
 MAX_CONCURRENT = 5
 NUM_ENTRIES = None  # None = all entries
 
@@ -72,13 +74,15 @@ def load_dataset(path: str, limit: int | None = None) -> list[dict]:
 # ====================
 
 
-def generate_html(results: list[dict], output_path: str):
+def generate_html(config: dict, results: list[dict], output_path: str):
     header = f"""
     <html>
     <head>
-        <title>Évaluation du modèle</title>
+        <title>Évaluation — {html_module.escape(config["model_name"])}</title>
         <style>
             body {{ font-family: Arial, sans-serif; margin: 20px; }}
+            .config {{ background-color: #e3f2fd; border: 1px solid #90caf9; padding: 15px; border-radius: 5px; margin-bottom: 25px; }}
+            .config h2 {{ margin-top: 0; }}
             .entry {{ border: 1px solid #ccc; margin-bottom: 20px; padding: 10px; border-radius: 5px; }}
             .header {{ font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }}
             .container {{ display: flex; flex-wrap: wrap; }}
@@ -91,7 +95,12 @@ def generate_html(results: list[dict], output_path: str):
     </head>
     <body>
         <h1>Évaluation du modèle — Extraction de tickets de caisse</h1>
-        <p>{len(results)} entrées évaluées.</p>
+        <div class="config">
+            <h2>Configuration</h2>
+            <p><strong>Modèle :</strong> {html_module.escape(config["model_name"])}</p>
+            <p><strong>Date :</strong> {html_module.escape(config["datetime"])}</p>
+            <p><strong>Entrées évaluées :</strong> {config["num_entries"]}</p>
+        </div>
     """
 
     body = ""
@@ -162,7 +171,25 @@ async def main():
     tasks = [process_one(e) for e in entries]
     results = await asyncio.gather(*tasks)
 
-    generate_html(results, OUTPUT_HTML)
+    # Build config and save everything to eval/
+    now = datetime.now()
+    timestamp = now.strftime("%Y%m%d_%H%M%S")
+    config = {
+        "model_name": MODEL_NAME,
+        "datetime": now.isoformat(),
+        "num_entries": len(results),
+    }
+
+    os.makedirs(EVAL_DIR, exist_ok=True)
+    base_name = f"{MODEL_NAME}_{timestamp}"
+    json_path = os.path.join(EVAL_DIR, f"{base_name}.json")
+    html_path = os.path.join(EVAL_DIR, f"{base_name}.html")
+
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump({"config": config, "results": results}, f, indent=2, ensure_ascii=False)
+    print(f"Données sauvegardées dans {json_path}")
+
+    generate_html(config, results, html_path)
     print("Terminé !")
 
 
