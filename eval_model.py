@@ -36,7 +36,7 @@ SYSTEM_PROMPT = (
     "N'invente rien — utilise uniquement ce qui est dans le texte. "
     "Renvoie uniquement l'objet JSON — pas de texte supplémentaire."
 )
-USER_PROMPT_TEMPLATE = "Ticket de caisse :\n\n{receipt_text}"
+USER_PROMPT_TEMPLATE = "{instruction}\n\nTicket de caisse :\n\n{receipt_text}"
 
 
 # ====================
@@ -44,14 +44,14 @@ USER_PROMPT_TEMPLATE = "Ticket de caisse :\n\n{receipt_text}"
 # ====================
 
 
-async def call_model(semaphore: asyncio.Semaphore, receipt_text: str) -> str:
+async def call_model(semaphore: asyncio.Semaphore, instruction: str, receipt_text: str) -> str:
     """Send a receipt to the local model and return the raw response text."""
     async with semaphore:
         response = await client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": USER_PROMPT_TEMPLATE.format(receipt_text=receipt_text)},
+                {"role": "user", "content": USER_PROMPT_TEMPLATE.format(instruction=instruction, receipt_text=receipt_text)},
             ],
         )
     return response.choices[0].message.content.strip()
@@ -157,10 +157,11 @@ async def main():
 
     async def process_one(entry: dict) -> dict:
         receipt_text = entry["input"]
+        instruction = entry["instruction"]
         ground_truth = json.dumps(
             json.loads(entry["output"]), indent=4, ensure_ascii=False
         )
-        model_raw = await call_model(semaphore, receipt_text)
+        model_raw = await call_model(semaphore, instruction, receipt_text)
         # Try to pretty-print model output if it's valid JSON
         try:
             model_json = json.loads(model_raw)
