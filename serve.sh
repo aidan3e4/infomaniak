@@ -2,7 +2,6 @@
 set -e
 
 source "$HOME/.local/bin/env"
-cd ~/infomaniak
 source .venv/bin/activate
 
 vllm serve "Qwen/Qwen3-4B-Instruct-2507" \

@@ -10,9 +10,9 @@ from openai import AsyncOpenAI
 # ====================
 # Configuration
 # ====================
-MODEL_NAME = "my-finetuned-model"
-MODEL_BASE_URL = "http://localhost:11434/v1"  # Ollama default; change for vLLM etc.
-MODEL_API_KEY = "ollama"  # Ollama doesn't need a real key
+MODEL_NAME = "Qwen/Qwen3-4B-Instruct-2507"
+MODEL_BASE_URL = "http://localhost:8000/v1"  # vLLM default
+MODEL_API_KEY = "token-abc123"  # vLLM doesn't need a real key
 DATASET_FILE = "receipt_dataset.jsonl"
 EVAL_DIR = "eval"
 MAX_CONCURRENT = 5
@@ -181,7 +181,8 @@ async def main():
     }
 
     os.makedirs(EVAL_DIR, exist_ok=True)
-    base_name = f"{MODEL_NAME}_{timestamp}"
+    safe_model_name = MODEL_NAME.replace("/", "_")
+    base_name = f"{safe_model_name}_{timestamp}"
     json_path = os.path.join(EVAL_DIR, f"{base_name}.json")
     html_path = os.path.join(EVAL_DIR, f"{base_name}.html")
 
