@@ -36,6 +36,7 @@ SYSTEM_PROMPT = (
     "N'invente rien — utilise uniquement ce qui est dans le texte. "
     "Renvoie uniquement l'objet JSON — pas de texte supplémentaire."
 )
+USER_PROMPT_TEMPLATE = "Ticket de caisse :\n\n{receipt_text}"
 
 
 # ====================
@@ -50,7 +51,7 @@ async def call_model(semaphore: asyncio.Semaphore, receipt_text: str) -> str:
             model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"Ticket de caisse :\n\n{receipt_text}"},
+                {"role": "user", "content": USER_PROMPT_TEMPLATE.format(receipt_text=receipt_text)},
             ],
         )
     return response.choices[0].message.content.strip()
@@ -100,6 +101,10 @@ def generate_html(config: dict, results: list[dict], output_path: str):
             <p><strong>Modèle :</strong> {html_module.escape(config["model_name"])}</p>
             <p><strong>Date :</strong> {html_module.escape(config["datetime"])}</p>
             <p><strong>Entrées évaluées :</strong> {config["num_entries"]}</p>
+            <p><strong>System prompt :</strong></p>
+            <pre>{html_module.escape(config["system_prompt"])}</pre>
+            <p><strong>User prompt template :</strong></p>
+            <pre>{html_module.escape(config["user_prompt_template"])}</pre>
         </div>
     """
 
@@ -178,6 +183,8 @@ async def main():
         "model_name": MODEL_NAME,
         "datetime": now.isoformat(),
         "num_entries": len(results),
+        "system_prompt": SYSTEM_PROMPT,
+        "user_prompt_template": USER_PROMPT_TEMPLATE,
     }
 
     os.makedirs(EVAL_DIR, exist_ok=True)
