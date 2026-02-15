@@ -11,10 +11,10 @@ from pydantic import BaseModel, Field
 # ====================
 GENERATION_MODEL = "gpt-4o"
 EXTRACTION_MODEL = "gpt-5"
-NUM_RECEIPTS = 20
-BATCH_SIZE = 10
+NUM_RECEIPTS = 1000
+BATCH_SIZE = 20
 MAX_CONCURRENT = 10
-OUTPUT_FILE = "receipt_dataset.jsonl"
+OUTPUT_FILE = "receipt_dataset_1000.jsonl"
 
 # ====================
 # OpenAI client
