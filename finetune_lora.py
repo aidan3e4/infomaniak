@@ -42,7 +42,7 @@ print(f"Loading {MODEL_NAME}...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME,
-    torch_dtype="bfloat16",
+    dtype="bfloat16",
     device_map="auto",
     trust_remote_code=True,
 )
@@ -93,9 +93,8 @@ dataset = dataset.map(format_chat, remove_columns=dataset.column_names)
 print("Starting training...")
 trainer = SFTTrainer(
     model=model,
-    tokenizer=tokenizer,
+    processing_class=tokenizer,
     train_dataset=dataset,
-    peft_config=lora_config,
     args=SFTConfig(
         output_dir=OUTPUT_DIR,
         num_train_epochs=NUM_EPOCHS,
@@ -107,7 +106,7 @@ trainer = SFTTrainer(
         logging_steps=5,
         save_strategy="epoch",
         dataset_text_field="text",
-        max_seq_length=MAX_SEQ_LENGTH,
+        max_length=MAX_SEQ_LENGTH,
         seed=42,
     ),
 )
