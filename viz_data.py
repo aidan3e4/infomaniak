@@ -33,7 +33,17 @@ def visualize_receipt_data(input_file: str = "receipt_dataset.jsonl", output_htm
             .right {{ flex: 1; min-width: 45%; padding: 10px; }}
             pre {{ white-space: pre-wrap; word-wrap: break-word; }}
             .instruction {{ margin-top: 10px; font-style: italic; color: #555; }}
+            .config-btn {{ background-color: #e3f2fd; border: 1px solid #90caf9; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; margin-top: 8px; }}
+            .config-btn:hover {{ background-color: #bbdefb; }}
+            .config-content {{ display: none; background-color: #f5f5f5; border: 1px solid #ddd; padding: 10px; margin-top: 8px; border-radius: 4px; }}
+            .config-content.open {{ display: block; }}
         </style>
+        <script>
+            function toggleConfig(id) {{
+                var el = document.getElementById(id);
+                el.classList.toggle('open');
+            }}
+        </script>
     </head>
     <body>
         <h1>Receipt Data Inspection</h1>
@@ -44,7 +54,7 @@ def visualize_receipt_data(input_file: str = "receipt_dataset.jsonl", output_htm
     for idx, entry in enumerate(entries, 1):
         raw_text = html.escape(entry.get("input", "No input"))
         json_output = json.dumps(json.loads(entry.get("output", "{}")), indent=4, ensure_ascii=False)
-        # instruction = html.escape(entry.get("instruction", "No instruction"))
+        instruction = html.escape(entry.get("instruction", "No instruction"))
         
         html_content += f"""
         <div class="entry">
@@ -58,6 +68,10 @@ def visualize_receipt_data(input_file: str = "receipt_dataset.jsonl", output_htm
                     <h3>Extracted JSON:</h3>
                     <pre><code>{html.escape(json_output)}</code></pre>
                 </div>
+            </div>
+            <button class="config-btn" onclick="toggleConfig('config-{idx}')">Show Instruction / Config</button>
+            <div id="config-{idx}" class="config-content">
+                <pre>{instruction}</pre>
             </div>
         </div>
         """
