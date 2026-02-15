@@ -45,15 +45,8 @@ client = AsyncOpenAI(base_url=MODEL_BASE_URL, api_key=MODEL_API_KEY)
 # ====================
 # System prompt (same as used in gen_data_receipts.py extraction)
 # ====================
-SYSTEM_PROMPT = (
-    "Tu es un extracteur parfait de tickets de caisse suisses. "
-    "Extrais les informations en respectant strictement le schéma. "
-    "Utilise null pour les valeurs manquantes ou illisibles. "
-    "Les prix sont des nombres décimaux (utilise . et non ,). "
-    "Les dates sont toujours au format JJ.MM.AAAA si présentes. "
-    "N'invente rien — utilise uniquement ce qui est dans le texte. "
-    "Renvoie uniquement l'objet JSON — pas de texte supplémentaire."
-)
+with open("prompt_v0.txt") as f:
+    SYSTEM_PROMPT = f.read().strip()
 USER_PROMPT_TEMPLATE = "{instruction}\n\nTicket de caisse :\n\n{receipt_text}"
 
 
