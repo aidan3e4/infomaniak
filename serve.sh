@@ -3,6 +3,7 @@ set -e
 
 source "$HOME/.local/bin/env"
 source .venv/bin/activate
+set -a; source .env; set +a
 
 # Options:
 #   No adapter (base model):  ./serve.sh
