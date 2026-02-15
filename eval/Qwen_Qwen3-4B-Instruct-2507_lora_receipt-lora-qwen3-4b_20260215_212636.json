@@ -1,0 +1,858 @@
+{
+  "config": {
+    "model_name": "Qwen/Qwen3-4B-Instruct-2507",
+    "lora_adapter": "aidan3e4/receipt-lora-qwen3-4b",
+    "datetime": "2026-02-15T21:26:36.927658",
+    "num_entries": 50,
+    "system_prompt": "Tu es un extracteur parfait de tickets de caisse suisses. Extrais les informations en respectant strictement le schéma. Utilise null pour les valeurs manquantes ou illisibles. Les prix sont des nombres décimaux (utilise . et non ,). Les dates sont toujours au format JJ.MM.AAAA si présentes. N'invente rien — utilise uniquement ce qui est dans le texte. Renvoie uniquement l'objet JSON — pas de texte supplémentaire.",
+    "user_prompt_template": "{instruction}\n\nTicket de caisse :\n\n{receipt_text}"
+  },
+  "scoring": {
+    "average_score": 0.8852,
+    "min_score": 0.4444,
+    "max_score": 1.0,
+    "schema_failures": 0,
+    "num_receipts": 50,
+    "per_receipt": [
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 0
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 1
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Pain complet' field 'unit_price': predicted=2.8, expected=1.4",
+          "Item 'Pain complet' field 'total_price': predicted=5.6, expected=2.8"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 2,
+        "total_fields": 22,
+        "total_errors": 2,
+        "score": 0.9090909090909091,
+        "index": 2
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 3
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 4
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Chocolat au lait' field 'unit_price': predicted=3.4, expected=1.7",
+          "Item 'Chocolat au lait' field 'total_price': predicted=6.8, expected=3.4",
+          "Missing item: 'Réduction' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 6,
+        "total_fields": 18,
+        "total_errors": 6,
+        "score": 0.6666666666666667,
+        "index": 5
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 6
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 7
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 8
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'store': predicted=None, expected='Manor'"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 1,
+        "score": 0.9444444444444444,
+        "index": 9
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Missing item: 'Rabais' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 4,
+        "total_fields": 18,
+        "total_errors": 4,
+        "score": 0.7777777777777778,
+        "index": 10
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'store': predicted='Restaurant Migros', expected='Restaurant Migros Genève Balexert'"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 1,
+        "score": 0.8333333333333334,
+        "index": 11
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Missing item: 'Remise' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 4,
+        "total_fields": 18,
+        "total_errors": 4,
+        "score": 0.7777777777777778,
+        "index": 12
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Lait 1L' field 'total_price': predicted=1.45, expected=None",
+          "Item 'Courgettes' field 'name': predicted='Courgettes 0.75kg', expected='Courgettes'"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 2,
+        "total_fields": 18,
+        "total_errors": 2,
+        "score": 0.8888888888888888,
+        "index": 13
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Bananes 1kg' field 'unit_price': predicted=1.5, expected=4.5"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 1,
+        "total_fields": 18,
+        "total_errors": 1,
+        "score": 0.9444444444444444,
+        "index": 14
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 15
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'store': predicted=None, expected='Aligro'",
+          "Item 'Saucisses Viennoises' field 'name': predicted='Saucisses Viennoises  1.2kg x 10.00 Fr./kg', expected='Saucisses Viennoises'",
+          "Missing item: 'Eau plate' (not found in prediction)",
+          "Extra item: 'Eau plate             6x 1.00 Fr.' (not in ground truth)"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 9,
+        "total_fields": 18,
+        "total_errors": 10,
+        "score": 0.4444444444444444,
+        "index": 16
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Gel douche Nivea' field 'unit_price': predicted=8.4, expected=4.2",
+          "Item 'Gel douche Nivea' field 'total_price': predicted=16.8, expected=8.4"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 2,
+        "total_fields": 18,
+        "total_errors": 2,
+        "score": 0.8888888888888888,
+        "index": 17
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 18
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 19
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'payment_method': predicted=None, expected='Carte'"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 1,
+        "score": 0.9444444444444444,
+        "index": 20
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Extra item: 'Total hors TVA' (not in ground truth)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 4,
+        "total_fields": 10,
+        "total_errors": 4,
+        "score": 0.6,
+        "index": 21
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 22
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Bière blonde 50cl' field 'unit_price': predicted=1.2, expected=0.6",
+          "Item 'Bière blonde 50cl' field 'total_price': predicted=2.4, expected=1.2",
+          "Missing item: 'Rabais' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 6,
+        "total_fields": 18,
+        "total_errors": 6,
+        "score": 0.6666666666666667,
+        "index": 23
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 24
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'total': predicted=None, expected=29.35"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 0,
+        "total_fields": 22,
+        "total_errors": 1,
+        "score": 0.9545454545454546,
+        "index": 25
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 26
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'currency': predicted='CHF', expected='Fr.'",
+          "Missing item: 'Rabais 5%' (not found in prediction)"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 4,
+        "total_fields": 18,
+        "total_errors": 5,
+        "score": 0.7222222222222222,
+        "index": 27
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Brochettes de crevettes' field 'unit_price': predicted=12.0, expected=6.0",
+          "Item 'Brochettes de crevettes' field 'total_price': predicted=24.0, expected=12.0"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 2,
+        "total_fields": 18,
+        "total_errors": 2,
+        "score": 0.8888888888888888,
+        "index": 28
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 22,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 29
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Beurre' field 'unit_price': predicted=3.1, expected=1.55",
+          "Item 'Beurre' field 'total_price': predicted=6.2, expected=3.1",
+          "Item 'Concombre' field 'unit_price': predicted=2.4, expected=0.8",
+          "Item 'Concombre' field 'total_price': predicted=7.2, expected=2.4",
+          "Item 'Pain' field 'unit_price': predicted=4.0, expected=2.0",
+          "Item 'Pain' field 'total_price': predicted=8.0, expected=4.0"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 6,
+        "total_fields": 22,
+        "total_errors": 6,
+        "score": 0.7272727272727273,
+        "index": 30
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Extra item: '6' (not in ground truth)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 4,
+        "total_fields": 10,
+        "total_errors": 4,
+        "score": 0.6,
+        "index": 31
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 32
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 33
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 34
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'store': predicted=None, expected='Aligro'",
+          "Item 'Vin blanc' field 'unit_price': predicted=8.5, expected=None",
+          "Item 'Sauce tomate' field 'unit_price': predicted=2.8, expected=None",
+          "Item 'Sauce tomate' field 'total_price': predicted=5.6, expected=2.8",
+          "Item 'Pâtes' field 'unit_price': predicted=3.3, expected=None",
+          "Item 'Pâtes' field 'total_price': predicted=9.9, expected=3.3",
+          "Item 'Tomates' field 'unit_price': predicted=6.25, expected=None",
+          "Item 'Tomates' field 'total_price': predicted=31.25, expected=6.25"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 7,
+        "total_fields": 22,
+        "total_errors": 8,
+        "score": 0.6363636363636364,
+        "index": 35
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Bananes' field 'unit_price': predicted=4.2, expected=1.4",
+          "Item 'Bananes' field 'total_price': predicted=12.6, expected=4.2"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 2,
+        "total_fields": 18,
+        "total_errors": 2,
+        "score": 0.8888888888888888,
+        "index": 36
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 37
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 38
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Missing item: 'Rabais' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 4,
+        "total_fields": 22,
+        "total_errors": 4,
+        "score": 0.8181818181818181,
+        "index": 39
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 6,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 40
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 41
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 18,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 42
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Yaourt nature' field 'unit_price': predicted=1.6, expected=0.8",
+          "Item 'Yaourt nature' field 'total_price': predicted=3.2, expected=1.6"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 2,
+        "total_fields": 22,
+        "total_errors": 2,
+        "score": 0.9090909090909091,
+        "index": 43
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Café grains' field 'unit_price': predicted=1.8, expected=None",
+          "Item 'Pomme' field 'unit_price': predicted=1.25, expected=None",
+          "Item 'Tarte aux fruits' field 'unit_price': predicted=3.65, expected=None",
+          "Missing item: 'Rabais' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 7,
+        "total_fields": 22,
+        "total_errors": 7,
+        "score": 0.6818181818181819,
+        "index": 44
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Tomates 500g' field 'unit_price': predicted=0.9, expected=2.7"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 1,
+        "total_fields": 18,
+        "total_errors": 1,
+        "score": 0.9444444444444444,
+        "index": 45
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 46
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Item 'Saumon fumé' field 'total_price': predicted=8.1, expected=None",
+          "Item 'Fromage râpé' field 'total_price': predicted=13.6, expected=None",
+          "Item 'Salade verte' field 'total_price': predicted=1.8, expected=None",
+          "Item 'Poulet entier' field 'total_price': predicted=11.2, expected=None",
+          "Item 'Œufs 12p' field 'total_price': predicted=16.5, expected=None",
+          "Missing item: 'Rabais -5%' (not found in prediction)"
+        ],
+        "non_item_errors": 0,
+        "item_errors": 9,
+        "total_fields": 30,
+        "total_errors": 9,
+        "score": 0.7,
+        "index": 47
+      },
+      {
+        "schema_ok": true,
+        "errors": [
+          "Field 'total': predicted=None, expected=8.0",
+          "Extra item: '8' (not in ground truth)"
+        ],
+        "non_item_errors": 1,
+        "item_errors": 4,
+        "total_fields": 10,
+        "total_errors": 5,
+        "score": 0.5,
+        "index": 48
+      },
+      {
+        "schema_ok": true,
+        "errors": [],
+        "non_item_errors": 0,
+        "item_errors": 0,
+        "total_fields": 14,
+        "total_errors": 0,
+        "score": 1.0,
+        "index": 49
+      }
+    ]
+  },
+  "results": [
+    {
+      "input": "5\nRestaurant Migros\nRue du Simplon 13\n1800 Vevey\n\n25.03.2023\n\n1x Café crème              3.20\n1x Croissant                 1.80\n\nTotal                           5.00\n\nTVA incl.\n\nEspèces                    10.00\nRendu                       5.00",
+      "model_output": "{\n    \"date\": \"25.03.2023\",\n    \"total\": 5.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros\",\n    \"items\": [\n        {\n            \"name\": \"Café crème\",\n            \"quantity\": 1,\n            \"unit_price\": 3.2,\n            \"total_price\": 3.2\n        },\n        {\n            \"name\": \"Croissant\",\n            \"quantity\": 1,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"25.03.2023\",\n    \"total\": 5.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros\",\n    \"items\": [\n        {\n            \"name\": \"Café crème\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.2,\n            \"total_price\": 3.2\n        },\n        {\n            \"name\": \"Croissant\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "2  \nCoop Lausanne  \n15.07.2023  \n\nBananes                    1kg x 3.20 Fr.     3.20 Fr.  \nPoulet rôti                   1 x 7.50 Fr.     7.50 Fr.  \nRiz basmati 1kg         1 x 2.90 Fr.     2.90 Fr.  \n\nTotal                                      13.60 Fr.  \nRabais -  5%                    -   0.68 Fr.  \n\nTotal après rabais                12.92 Fr.  \nEspèces",
+      "model_output": "{\n    \"date\": \"15.07.2023\",\n    \"total\": 12.92,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Bananes\",\n            \"quantity\": 1,\n            \"unit_price\": 3.2,\n            \"total_price\": 3.2\n        },\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1,\n            \"unit_price\": 7.5,\n            \"total_price\": 7.5\n        },\n        {\n            \"name\": \"Riz basmati 1kg\",\n            \"quantity\": 1,\n            \"unit_price\": 2.9,\n            \"total_price\": 2.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"15.07.2023\",\n    \"total\": 12.92,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Bananes\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.2,\n            \"total_price\": 3.2\n        },\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1.0,\n            \"unit_price\": 7.5,\n            \"total_price\": 7.5\n        },\n        {\n            \"name\": \"Riz basmati 1kg\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.9,\n            \"total_price\": 2.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "Migros - Lausanne\n\n23.09.2023\n\n1x    Lait UHT Migros     1.20\n1x    Fromage Gruyère     3.90\n2x    Pain complet        2.80\n1x    Chocolat suisse     1.50\n\nTotal       9.40 Fr.\nPAYEMENT    Carte\n\nCaissier(ère): Julie",
+      "model_output": "{\n    \"date\": \"23.09.2023\",\n    \"total\": 9.4,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros - Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Lait UHT Migros\",\n            \"quantity\": 1,\n            \"unit_price\": 1.2,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Fromage Gruyère\",\n            \"quantity\": 1,\n            \"unit_price\": 3.9,\n            \"total_price\": 3.9\n        },\n        {\n            \"name\": \"Pain complet\",\n            \"quantity\": 2,\n            \"unit_price\": 2.8,\n            \"total_price\": 5.6\n        },\n        {\n            \"name\": \"Chocolat suisse\",\n            \"quantity\": 1,\n            \"unit_price\": 1.5,\n            \"total_price\": 1.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}",
+      "ground_truth": "{\n    \"date\": \"23.09.2023\",\n    \"total\": 9.4,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros - Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Lait UHT Migros\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.2,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Fromage Gruyère\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.9,\n            \"total_price\": 3.9\n        },\n        {\n            \"name\": \"Pain complet\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.4,\n            \"total_price\": 2.8\n        },\n        {\n            \"name\": \"Chocolat suisse\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.5,\n            \"total_price\": 1.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "-\n\n20\nRestaurant Migros Genève\n09/04/2022\n\nPoulet rôti        1 x 14.90\nSalade verte       1 x 3.80\nTarte citron       1 x 4.00\n\nTotal               22.70 Fr.\nTVA 8.1% incluse\n\nCarte banquaire",
+      "model_output": "{\n    \"date\": \"09.04.2022\",\n    \"total\": 22.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Genève\",\n    \"items\": [\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1,\n            \"unit_price\": 14.9,\n            \"total_price\": 14.9\n        },\n        {\n            \"name\": \"Salade verte\",\n            \"quantity\": 1,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        },\n        {\n            \"name\": \"Tarte citron\",\n            \"quantity\": 1,\n            \"unit_price\": 4.0,\n            \"total_price\": 4.0\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"Carte banquaire\"\n}",
+      "ground_truth": "{\n    \"date\": \"09.04.2022\",\n    \"total\": 22.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Genève\",\n    \"items\": [\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1.0,\n            \"unit_price\": 14.9,\n            \"total_price\": 14.9\n        },\n        {\n            \"name\": \"Salade verte\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        },\n        {\n            \"name\": \"Tarte citron\",\n            \"quantity\": 1.0,\n            \"unit_price\": 4.0,\n            \"total_price\": 4.0\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"Carte banquaire\"\n}"
+    },
+    {
+      "input": "5  \nLidl Nyon  \nDate : 30.03.2023  \n\n1x Chocolat noir 80%     2.10 CHF  \n2x Bi ère 50cl           1.90 CHF  \n2.6% TVA incluse  \nTotal :                  5.90 CHF  \n\nPaiement : TWINT",
+      "model_output": "{\n    \"date\": \"30.03.2023\",\n    \"total\": 5.9,\n    \"currency\": \"CHF\",\n    \"store\": \"Lidl Nyon\",\n    \"items\": [\n        {\n            \"name\": \"Chocolat noir 80%\",\n            \"quantity\": 1,\n            \"unit_price\": 2.1,\n            \"total_price\": 2.1\n        },\n        {\n            \"name\": \"Bi ère 50cl\",\n            \"quantity\": 2,\n            \"unit_price\": 1.9,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"30.03.2023\",\n    \"total\": 5.9,\n    \"currency\": \"CHF\",\n    \"store\": \"Lidl Nyon\",\n    \"items\": [\n        {\n            \"name\": \"Chocolat noir 80%\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.1,\n            \"total_price\": 2.1\n        },\n        {\n            \"name\": \"Bi ère 50cl\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.9,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "9\nAldi\nRoute de Genève 25\n1000 Lausanne\n\n28.02.2023\n\n2x Chocolat au lait      3.40\n1x Jambon cru            4.50\n\nRéduction -2.00 Fr.   -2.00\n\nTotal                        5.90\n\nTVA incl.\n\nEspèces                     6.00\nRendu                        0.10",
+      "model_output": "{\n    \"date\": \"28.02.2023\",\n    \"total\": 5.9,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi\",\n    \"items\": [\n        {\n            \"name\": \"Chocolat au lait\",\n            \"quantity\": 2,\n            \"unit_price\": 3.4,\n            \"total_price\": 6.8\n        },\n        {\n            \"name\": \"Jambon cru\",\n            \"quantity\": 1,\n            \"unit_price\": 4.5,\n            \"total_price\": 4.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"28.02.2023\",\n    \"total\": 5.9,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi\",\n    \"items\": [\n        {\n            \"name\": \"Chocolat au lait\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.7,\n            \"total_price\": 3.4\n        },\n        {\n            \"name\": \"Jambon cru\",\n            \"quantity\": 1.0,\n            \"unit_price\": 4.5,\n            \"total_price\": 4.5\n        },\n        {\n            \"name\": \"Réduction\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -2.0\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "4  \nDenner Neuchâtel  \n02.07.2023  \n\n3x Bière blonde            6.00  \n1x Fromage à raclette      7.90  \n2x Chips nature            4.40  \n\nTotal :                   18.30 CHF",
+      "model_output": "{\n    \"date\": \"02.07.2023\",\n    \"total\": 18.3,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Bière blonde\",\n            \"quantity\": 3,\n            \"unit_price\": 2.0,\n            \"total_price\": 6.0\n        },\n        {\n            \"name\": \"Fromage à raclette\",\n            \"quantity\": 1,\n            \"unit_price\": 7.9,\n            \"total_price\": 7.9\n        },\n        {\n            \"name\": \"Chips nature\",\n            \"quantity\": 2,\n            \"unit_price\": 2.2,\n            \"total_price\": 4.4\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"02.07.2023\",\n    \"total\": 18.3,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Bière blonde\",\n            \"quantity\": 3.0,\n            \"unit_price\": 2.0,\n            \"total_price\": 6.0\n        },\n        {\n            \"name\": \"Fromage à raclette\",\n            \"quantity\": 1.0,\n            \"unit_price\": 7.9,\n            \"total_price\": 7.9\n        },\n        {\n            \"name\": \"Chips nature\",\n            \"quantity\": 2.0,\n            \"unit_price\": 2.2,\n            \"total_price\": 4.4\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "Restaurant Migros Lausanne\n05.05.2023",
+      "model_output": "{\n    \"date\": \"05.05.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Lausanne\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"05.05.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Lausanne\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "4   \nALDI  \n08.08.2023  \n\nConfiture bio     1 x    4.20 Fr.  \nPommes            1 x    2.60 Fr.  \nCafé grain        1 x    6.70 Fr.  \nTotal            13.50 Fr.  \nTWINT  \nTicket 3241",
+      "model_output": "{\n    \"date\": \"08.08.2023\",\n    \"total\": 13.5,\n    \"currency\": \"CHF\",\n    \"store\": \"ALDI\",\n    \"items\": [\n        {\n            \"name\": \"Confiture bio\",\n            \"quantity\": 1,\n            \"unit_price\": 4.2,\n            \"total_price\": 4.2\n        },\n        {\n            \"name\": \"Pommes\",\n            \"quantity\": 1,\n            \"unit_price\": 2.6,\n            \"total_price\": 2.6\n        },\n        {\n            \"name\": \"Café grain\",\n            \"quantity\": 1,\n            \"unit_price\": 6.7,\n            \"total_price\": 6.7\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"08.08.2023\",\n    \"total\": 13.5,\n    \"currency\": \"CHF\",\n    \"store\": \"ALDI\",\n    \"items\": [\n        {\n            \"name\": \"Confiture bio\",\n            \"quantity\": 1.0,\n            \"unit_price\": 4.2,\n            \"total_price\": 4.2\n        },\n        {\n            \"name\": \"Pommes\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.6,\n            \"total_price\": 2.6\n        },\n        {\n            \"name\": \"Café grain\",\n            \"quantity\": 1.0,\n            \"unit_price\": 6.7,\n            \"total_price\": 6.7\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "6\nManor\n04.03.2023\n\nShampooing              1 x    5.50 CHF\nDéodorant                1 x    6.80 CHF\nParfum de Savoie     1 x  50.00 CHF\n\nTVA 8.1%\n\nTotal                                    CHF 62.30\n\nCarte",
+      "model_output": "{\n    \"date\": \"04.03.2023\",\n    \"total\": 62.3,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"Carte\",\n    \"items\": [\n        {\n            \"name\": \"Shampooing\",\n            \"quantity\": 1,\n            \"unit_price\": 5.5,\n            \"total_price\": 5.5\n        },\n        {\n            \"name\": \"Déodorant\",\n            \"quantity\": 1,\n            \"unit_price\": 6.8,\n            \"total_price\": 6.8\n        },\n        {\n            \"name\": \"Parfum de Savoie\",\n            \"quantity\": 1,\n            \"unit_price\": 50.0,\n            \"total_price\": 50.0\n        }\n    ]\n}",
+      "ground_truth": "{\n    \"date\": \"04.03.2023\",\n    \"total\": 62.3,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor\",\n    \"items\": [\n        {\n            \"name\": \"Shampooing\",\n            \"quantity\": 1.0,\n            \"unit_price\": 5.5,\n            \"total_price\": 5.5\n        },\n        {\n            \"name\": \"Déodorant\",\n            \"quantity\": 1.0,\n            \"unit_price\": 6.8,\n            \"total_price\": 6.8\n        },\n        {\n            \"name\": \"Parfum de Savoie\",\n            \"quantity\": 1.0,\n            \"unit_price\": 50.0,\n            \"total_price\": 50.0\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "18\nDenner Bas-Vully\nRoute du Vully 18\n1786 Bas-Vully\n\n30.07.2023\nArticle      Qté    Prix  Total\nJambon cru   0.3kg  45.00/kg  13.50\nFromage Tilsit 0.6kg 24.80/kg 14.88\nRabais -3.00 Fr.\nTotal       25.38 FS\n\nCarte bancaire\nMerci de votre visite!",
+      "model_output": "{\n    \"date\": \"30.07.2023\",\n    \"total\": 25.38,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Bas-Vully\",\n    \"items\": [\n        {\n            \"name\": \"Jambon cru\",\n            \"quantity\": 0.3,\n            \"unit_price\": 45.0,\n            \"total_price\": 13.5\n        },\n        {\n            \"name\": \"Fromage Tilsit\",\n            \"quantity\": 0.6,\n            \"unit_price\": 24.8,\n            \"total_price\": 14.88\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte bancaire\"\n}",
+      "ground_truth": "{\n    \"date\": \"30.07.2023\",\n    \"total\": 25.38,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Bas-Vully\",\n    \"items\": [\n        {\n            \"name\": \"Jambon cru\",\n            \"quantity\": 0.3,\n            \"unit_price\": 45.0,\n            \"total_price\": 13.5\n        },\n        {\n            \"name\": \"Fromage Tilsit\",\n            \"quantity\": 0.6,\n            \"unit_price\": 24.8,\n            \"total_price\": 14.88\n        },\n        {\n            \"name\": \"Rabais\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -3.0\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte bancaire\"\n}"
+    },
+    {
+      "input": "3\nRestaurant Migros\nGenève Balexert\nDate: 22.11.2023",
+      "model_output": "{\n    \"date\": \"22.11.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"22.11.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Genève Balexert\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "11  \nDenner  \n31.01.2023  \nChocolat au lait  1 x 2.90 Fr.  = 2.90 Fr.\nEau gazeuse     6 x 1.50 Fr.  = 9.00 Fr.\n-2.00 Fr. Remise\nTotal TVA incl  9.90 Fr.\nCarte",
+      "model_output": "{\n    \"date\": \"31.01.2023\",\n    \"total\": 9.9,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner\",\n    \"items\": [\n        {\n            \"name\": \"Chocolat au lait\",\n            \"quantity\": 1,\n            \"unit_price\": 2.9,\n            \"total_price\": 2.9\n        },\n        {\n            \"name\": \"Eau gazeuse\",\n            \"quantity\": 6,\n            \"unit_price\": 1.5,\n            \"total_price\": 9.0\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}",
+      "ground_truth": "{\n    \"date\": \"31.01.2023\",\n    \"total\": 9.9,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner\",\n    \"items\": [\n        {\n            \"name\": \"Chocolat au lait\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.9,\n            \"total_price\": 2.9\n        },\n        {\n            \"name\": \"Eau gazeuse\",\n            \"quantity\": 6.0,\n            \"unit_price\": 1.5,\n            \"total_price\": 9.0\n        },\n        {\n            \"name\": \"Remise\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -2.0\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "9\nMigros\n09.02.2022\n\nCourgettes 0.75kg    4.95  CHF/kg     3.71 CHF\nLait 1L                           1    x     1.45 CHF\nPain paysan                2    x    1.90 CHF    3.80 CHF\n\nTotal                                    CHF 9.81\n\nEspèces",
+      "model_output": "{\n    \"date\": \"09.02.2022\",\n    \"total\": 9.81,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros\",\n    \"items\": [\n        {\n            \"name\": \"Courgettes 0.75kg\",\n            \"quantity\": 0.75,\n            \"unit_price\": 4.95,\n            \"total_price\": 3.71\n        },\n        {\n            \"name\": \"Lait 1L\",\n            \"quantity\": 1,\n            \"unit_price\": 1.45,\n            \"total_price\": 1.45\n        },\n        {\n            \"name\": \"Pain paysan\",\n            \"quantity\": 2,\n            \"unit_price\": 1.9,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"09.02.2022\",\n    \"total\": 9.81,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros\",\n    \"items\": [\n        {\n            \"name\": \"Courgettes\",\n            \"quantity\": 0.75,\n            \"unit_price\": 4.95,\n            \"total_price\": 3.71\n        },\n        {\n            \"name\": \"Lait 1L\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.45,\n            \"total_price\": null\n        },\n        {\n            \"name\": \"Pain paysan\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.9,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "5  \nAldi Sion  \n17.05.2022  \n  \n1 x Beurre                 2.10  \n3 x Bananes 1kg           4.50  13.50  \n1 x Riz Basmati           3.80  \n\nTotal                     19.40  \n\nPaiement : TWINT",
+      "model_output": "{\n    \"date\": \"17.05.2022\",\n    \"total\": 19.4,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Sion\",\n    \"items\": [\n        {\n            \"name\": \"Beurre\",\n            \"quantity\": 1,\n            \"unit_price\": 2.1,\n            \"total_price\": 2.1\n        },\n        {\n            \"name\": \"Bananes 1kg\",\n            \"quantity\": 3,\n            \"unit_price\": 1.5,\n            \"total_price\": 13.5\n        },\n        {\n            \"name\": \"Riz Basmati\",\n            \"quantity\": 1,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"17.05.2022\",\n    \"total\": 19.4,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Sion\",\n    \"items\": [\n        {\n            \"name\": \"Beurre\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.1,\n            \"total_price\": 2.1\n        },\n        {\n            \"name\": \"Bananes 1kg\",\n            \"quantity\": 3.0,\n            \"unit_price\": 4.5,\n            \"total_price\": 13.5\n        },\n        {\n            \"name\": \"Riz Basmati\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "4  \nManor Lausanne  \n22.04.2023  \nT-shirt Homme        1x 29.90 Fr.   29.90 Fr.  \nJeans Levi's         1x 89.90 Fr.   89.90 Fr.  \n  \nTotal                119.80 Fr.  \nTVA 8.1% incluse  \nPaiement : TWINT  \nCaissière: Sophie",
+      "model_output": "{\n    \"date\": \"22.04.2023\",\n    \"total\": 119.8,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"T-shirt Homme\",\n            \"quantity\": 1,\n            \"unit_price\": 29.9,\n            \"total_price\": 29.9\n        },\n        {\n            \"name\": \"Jeans Levi's\",\n            \"quantity\": 1,\n            \"unit_price\": 89.9,\n            \"total_price\": 89.9\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"22.04.2023\",\n    \"total\": 119.8,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"T-shirt Homme\",\n            \"quantity\": 1.0,\n            \"unit_price\": 29.9,\n            \"total_price\": 29.9\n        },\n        {\n            \"name\": \"Jeans Levi's\",\n            \"quantity\": 1.0,\n            \"unit_price\": 89.9,\n            \"total_price\": 89.9\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "20\nAligro\n22.10.2023\nSaucisses Viennoises  1.2kg x 10.00 Fr./kg\nEau plate             6x 1.00 Fr.\nTotal :           22.00 Fr.\nPaiement : Espèce\nTVA incl. 2.6%",
+      "model_output": "{\n    \"date\": \"22.10.2023\",\n    \"total\": 22.0,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Espèce\",\n    \"items\": [\n        {\n            \"name\": \"Saucisses Viennoises  1.2kg x 10.00 Fr./kg\",\n            \"quantity\": 1.2,\n            \"unit_price\": 10.0,\n            \"total_price\": 12.0\n        },\n        {\n            \"name\": \"Eau plate             6x 1.00 Fr.\",\n            \"quantity\": 6,\n            \"unit_price\": 1.0,\n            \"total_price\": 6.0\n        }\n    ]\n}",
+      "ground_truth": "{\n    \"date\": \"22.10.2023\",\n    \"total\": 22.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Aligro\",\n    \"items\": [\n        {\n            \"name\": \"Saucisses Viennoises\",\n            \"quantity\": 1.2,\n            \"unit_price\": 10.0,\n            \"total_price\": 12.0\n        },\n        {\n            \"name\": \"Eau plate\",\n            \"quantity\": 6.0,\n            \"unit_price\": 1.0,\n            \"total_price\": 6.0\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Espèce\"\n}"
+    },
+    {
+      "input": "Manor - Fribourg\n\n08.03.2023\n\n1x    Shampooing Pantene      6.20\n2x    Gel douche Nivea        8.40\n1x    Café moulu Moka         5.50\n\nTOTAL               20.10 Fr.\nMerci et bonne journée!",
+      "model_output": "{\n    \"date\": \"08.03.2023\",\n    \"total\": 20.1,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor - Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Shampooing Pantene\",\n            \"quantity\": 1,\n            \"unit_price\": 6.2,\n            \"total_price\": 6.2\n        },\n        {\n            \"name\": \"Gel douche Nivea\",\n            \"quantity\": 2,\n            \"unit_price\": 8.4,\n            \"total_price\": 16.8\n        },\n        {\n            \"name\": \"Café moulu Moka\",\n            \"quantity\": 1,\n            \"unit_price\": 5.5,\n            \"total_price\": 5.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"08.03.2023\",\n    \"total\": 20.1,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor - Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Shampooing Pantene\",\n            \"quantity\": 1.0,\n            \"unit_price\": 6.2,\n            \"total_price\": 6.2\n        },\n        {\n            \"name\": \"Gel douche Nivea\",\n            \"quantity\": 2.0,\n            \"unit_price\": 4.2,\n            \"total_price\": 8.4\n        },\n        {\n            \"name\": \"Café moulu Moka\",\n            \"quantity\": 1.0,\n            \"unit_price\": 5.5,\n            \"total_price\": 5.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "--\nTotal                  5.75\n\nTicket nº 76543\nEspèces",
+      "model_output": "{\n    \"date\": null,\n    \"total\": 5.75,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": 5.75,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "7  \nMigros Lausanne  \n22.04.2023  \n\n1x Thon en boîte           3.00  \n2x Yoghurt                 2.40  \n3x Banane                1.80  \n\nTotal:                    7.20 CHF  \nTVA 2.6%",
+      "model_output": "{\n    \"date\": \"22.04.2023\",\n    \"total\": 7.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Thon en boîte\",\n            \"quantity\": 1,\n            \"unit_price\": 3.0,\n            \"total_price\": 3.0\n        },\n        {\n            \"name\": \"Yoghurt\",\n            \"quantity\": 2,\n            \"unit_price\": 1.2,\n            \"total_price\": 2.4\n        },\n        {\n            \"name\": \"Banane\",\n            \"quantity\": 3,\n            \"unit_price\": 0.6,\n            \"total_price\": 1.8\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"22.04.2023\",\n    \"total\": 7.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Thon en boîte\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.0,\n            \"total_price\": 3.0\n        },\n        {\n            \"name\": \"Yoghurt\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.2,\n            \"total_price\": 2.4\n        },\n        {\n            \"name\": \"Banane\",\n            \"quantity\": 3.0,\n            \"unit_price\": 0.6,\n            \"total_price\": 1.8\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "Chocolats pralinés    1x 14.00 Fr.\nParfum                 1x 30.00 Fr.\nCrème de nuit          1x 24.50 Fr.\nTVA 8.1%                       5.60 Fr.\nTotal                          74.10 Fr.\nCarte - Merci de votre visite.",
+      "model_output": "{\n    \"date\": null,\n    \"total\": 74.1,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [\n        {\n            \"name\": \"Chocolats pralinés\",\n            \"quantity\": 1,\n            \"unit_price\": 14.0,\n            \"total_price\": 14.0\n        },\n        {\n            \"name\": \"Parfum\",\n            \"quantity\": 1,\n            \"unit_price\": 30.0,\n            \"total_price\": 30.0\n        },\n        {\n            \"name\": \"Crème de nuit\",\n            \"quantity\": 1,\n            \"unit_price\": 24.5,\n            \"total_price\": 24.5\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": 74.1,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [\n        {\n            \"name\": \"Chocolats pralinés\",\n            \"quantity\": 1.0,\n            \"unit_price\": 14.0,\n            \"total_price\": 14.0\n        },\n        {\n            \"name\": \"Parfum\",\n            \"quantity\": 1.0,\n            \"unit_price\": 30.0,\n            \"total_price\": 30.0\n        },\n        {\n            \"name\": \"Crème de nuit\",\n            \"quantity\": 1.0,\n            \"unit_price\": 24.5,\n            \"total_price\": 24.5\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "-\nTotal hors TVA:              17.85   \nTVA 2.6%:                    0.45   \nTotal:                      18.30   \nCarte de crédit",
+      "model_output": "{\n    \"date\": null,\n    \"total\": 18.3,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Carte de crédit\",\n    \"items\": [\n        {\n            \"name\": \"Total hors TVA\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": 17.85\n        }\n    ]\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": 18.3,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Carte de crédit\"\n}"
+    },
+    {
+      "input": "Total                 13.93  \nTVA 2.6%               Incl.  \nCarte de débit",
+      "model_output": "{\n    \"date\": null,\n    \"total\": 13.93,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Carte de débit\"\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": 13.93,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Carte de débit\"\n}"
+    },
+    {
+      "input": "4  \nDenner Nyon  \n07.07.2023  \n\n2x Bière blonde 50cl            1.20  \n1x Jambon cru 100g              3.80  \nRabais -2.00 CHF               -2.00  \nTotal                          3.00  \n\nTVA incluse : 0.08 (2.6%)  \nPaiement: TWINT  \nTicket N° 329846",
+      "model_output": "{\n    \"date\": \"07.07.2023\",\n    \"total\": 3.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Nyon\",\n    \"items\": [\n        {\n            \"name\": \"Bière blonde 50cl\",\n            \"quantity\": 2,\n            \"unit_price\": 1.2,\n            \"total_price\": 2.4\n        },\n        {\n            \"name\": \"Jambon cru 100g\",\n            \"quantity\": 1,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"07.07.2023\",\n    \"total\": 3.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Nyon\",\n    \"items\": [\n        {\n            \"name\": \"Bière blonde 50cl\",\n            \"quantity\": 2.0,\n            \"unit_price\": 0.6,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Jambon cru 100g\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        },\n        {\n            \"name\": \"Rabais\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -2.0\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "8",
+      "model_output": "{\n    \"date\": null,\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "-\nDate: 21.07.2023  Heure: 09:52\nCaissier/e: Anna\n\n2 x Vin rouge          8.90\n1 x Bière blonde       1.40\n1 x Eau minérale       0.95\n1 x Fromage d'alpage   9.20",
+      "model_output": "{\n    \"date\": \"21.07.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"vat_rate\": null,\n    \"payment_method\": null,\n    \"items\": [\n        {\n            \"name\": \"Vin rouge\",\n            \"quantity\": 2,\n            \"unit_price\": 8.9,\n            \"total_price\": 17.8\n        },\n        {\n            \"name\": \"Bière blonde\",\n            \"quantity\": 1,\n            \"unit_price\": 1.4,\n            \"total_price\": 1.4\n        },\n        {\n            \"name\": \"Eau minérale\",\n            \"quantity\": 1,\n            \"unit_price\": 0.95,\n            \"total_price\": 0.95\n        },\n        {\n            \"name\": \"Fromage d'alpage\",\n            \"quantity\": 1,\n            \"unit_price\": 9.2,\n            \"total_price\": 9.2\n        }\n    ]\n}",
+      "ground_truth": "{\n    \"date\": \"21.07.2023\",\n    \"total\": 29.35,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [\n        {\n            \"name\": \"Vin rouge\",\n            \"quantity\": 2.0,\n            \"unit_price\": 8.9,\n            \"total_price\": 17.8\n        },\n        {\n            \"name\": \"Bière blonde\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.4,\n            \"total_price\": 1.4\n        },\n        {\n            \"name\": \"Eau minérale\",\n            \"quantity\": 1.0,\n            \"unit_price\": 0.95,\n            \"total_price\": 0.95\n        },\n        {\n            \"name\": \"Fromage d'alpage\",\n            \"quantity\": 1.0,\n            \"unit_price\": 9.2,\n            \"total_price\": 9.2\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "17  \nManor Montreux  \n19.12.2022  \nPull Femme           1x 49.90 Fr.   49.90 Fr.  \nÉcharpe              1x 19.50 Fr.   19.50 Fr.  \n  \nTotal                69.40 Fr.  \nPaiement : Espèces  \nCaissière : Clara",
+      "model_output": "{\n    \"date\": \"19.12.2022\",\n    \"total\": 69.4,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor Montreux\",\n    \"items\": [\n        {\n            \"name\": \"Pull Femme\",\n            \"quantity\": 1,\n            \"unit_price\": 49.9,\n            \"total_price\": 49.9\n        },\n        {\n            \"name\": \"Écharpe\",\n            \"quantity\": 1,\n            \"unit_price\": 19.5,\n            \"total_price\": 19.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"19.12.2022\",\n    \"total\": 69.4,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor Montreux\",\n    \"items\": [\n        {\n            \"name\": \"Pull Femme\",\n            \"quantity\": 1.0,\n            \"unit_price\": 49.9,\n            \"total_price\": 49.9\n        },\n        {\n            \"name\": \"Écharpe\",\n            \"quantity\": 1.0,\n            \"unit_price\": 19.5,\n            \"total_price\": 19.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "18  \nCoop Fribourg  \n30.10.2023  \n\n1x Poulet rôti                    11.50 Fr.  \n3x Baguette                         1.20 Fr.  3.60 Fr.  \nRabais 5%                          -0.75 Fr.  \n\nTout compris                  14.35 Fr.  \nPaiement : Espèces",
+      "model_output": "{\n    \"date\": \"30.10.2023\",\n    \"total\": 14.35,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1,\n            \"unit_price\": 11.5,\n            \"total_price\": 11.5\n        },\n        {\n            \"name\": \"Baguette\",\n            \"quantity\": 3,\n            \"unit_price\": 1.2,\n            \"total_price\": 3.6\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"30.10.2023\",\n    \"total\": 14.35,\n    \"currency\": \"Fr.\",\n    \"store\": \"Coop Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1.0,\n            \"unit_price\": 11.5,\n            \"total_price\": 11.5\n        },\n        {\n            \"name\": \"Baguette\",\n            \"quantity\": 3.0,\n            \"unit_price\": 1.2,\n            \"total_price\": 3.6\n        },\n        {\n            \"name\": \"Rabais 5%\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -0.75\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "Migros - Vevey\n\n01.08.2023\n\n2x    Brochettes de crevettes   12.00\n1x    Sauce cocktail             2.50\n1x    Baguette                   1.50\n\nTOTAL             16.00 Fr.\nPaiement: TWINT",
+      "model_output": "{\n    \"date\": \"01.08.2023\",\n    \"total\": 16.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros - Vevey\",\n    \"items\": [\n        {\n            \"name\": \"Brochettes de crevettes\",\n            \"quantity\": 2,\n            \"unit_price\": 12.0,\n            \"total_price\": 24.0\n        },\n        {\n            \"name\": \"Sauce cocktail\",\n            \"quantity\": 1,\n            \"unit_price\": 2.5,\n            \"total_price\": 2.5\n        },\n        {\n            \"name\": \"Baguette\",\n            \"quantity\": 1,\n            \"unit_price\": 1.5,\n            \"total_price\": 1.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"01.08.2023\",\n    \"total\": 16.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros - Vevey\",\n    \"items\": [\n        {\n            \"name\": \"Brochettes de crevettes\",\n            \"quantity\": 2.0,\n            \"unit_price\": 6.0,\n            \"total_price\": 12.0\n        },\n        {\n            \"name\": \"Sauce cocktail\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.5,\n            \"total_price\": 2.5\n        },\n        {\n            \"name\": \"Baguette\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.5,\n            \"total_price\": 1.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "ALDI - Lausanne\n\n30.08.2023\n\n1x    Beurre 250g          2.10\n1x    Croissants x4        3.50\n3x    Oeufs (12 pcs)       3.00\n1x    Nutella 400g         3.80\n\nTOTAL          12.40 Fr.\nPayé par: Carte",
+      "model_output": "{\n    \"date\": \"30.08.2023\",\n    \"total\": 12.4,\n    \"currency\": \"CHF\",\n    \"store\": \"ALDI - Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Beurre 250g\",\n            \"quantity\": 1,\n            \"unit_price\": 2.1,\n            \"total_price\": 2.1\n        },\n        {\n            \"name\": \"Croissants x4\",\n            \"quantity\": 1,\n            \"unit_price\": 3.5,\n            \"total_price\": 3.5\n        },\n        {\n            \"name\": \"Oeufs (12 pcs)\",\n            \"quantity\": 3,\n            \"unit_price\": 1.0,\n            \"total_price\": 3.0\n        },\n        {\n            \"name\": \"Nutella 400g\",\n            \"quantity\": 1,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}",
+      "ground_truth": "{\n    \"date\": \"30.08.2023\",\n    \"total\": 12.4,\n    \"currency\": \"CHF\",\n    \"store\": \"ALDI - Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Beurre 250g\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.1,\n            \"total_price\": 2.1\n        },\n        {\n            \"name\": \"Croissants x4\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.5,\n            \"total_price\": 3.5\n        },\n        {\n            \"name\": \"Oeufs (12 pcs)\",\n            \"quantity\": 3.0,\n            \"unit_price\": 1.0,\n            \"total_price\": 3.0\n        },\n        {\n            \"name\": \"Nutella 400g\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "16\nALDI Suisse\nRoute de la Gruyère 12\n1659 Rougemont\n09.08.2023\n\n2x Pain              4.00 Fr.\n3x Concombre         2.40 Fr.\n2x Beurre            3.10 Fr.\n1x Rosé             10.50 Fr.\n\nTotal            : 20.00 Fr.\nPaiement: Carte",
+      "model_output": "{\n    \"date\": \"09.08.2023\",\n    \"total\": 20.0,\n    \"currency\": \"CHF\",\n    \"store\": \"ALDI Suisse\",\n    \"items\": [\n        {\n            \"name\": \"Pain\",\n            \"quantity\": 2,\n            \"unit_price\": 4.0,\n            \"total_price\": 8.0\n        },\n        {\n            \"name\": \"Concombre\",\n            \"quantity\": 3,\n            \"unit_price\": 2.4,\n            \"total_price\": 7.2\n        },\n        {\n            \"name\": \"Beurre\",\n            \"quantity\": 2,\n            \"unit_price\": 3.1,\n            \"total_price\": 6.2\n        },\n        {\n            \"name\": \"Rosé\",\n            \"quantity\": 1,\n            \"unit_price\": 10.5,\n            \"total_price\": 10.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}",
+      "ground_truth": "{\n    \"date\": \"09.08.2023\",\n    \"total\": 20.0,\n    \"currency\": \"CHF\",\n    \"store\": \"ALDI Suisse\",\n    \"items\": [\n        {\n            \"name\": \"Pain\",\n            \"quantity\": 2.0,\n            \"unit_price\": 2.0,\n            \"total_price\": 4.0\n        },\n        {\n            \"name\": \"Concombre\",\n            \"quantity\": 3.0,\n            \"unit_price\": 0.8,\n            \"total_price\": 2.4\n        },\n        {\n            \"name\": \"Beurre\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.55,\n            \"total_price\": 3.1\n        },\n        {\n            \"name\": \"Rosé\",\n            \"quantity\": 1.0,\n            \"unit_price\": 10.5,\n            \"total_price\": 10.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "-\n                    Total : 27.20\nTVA: 8.1%\nPaiement par carte\n\n6\nMigros Restaurant\nRue de Carouge 45\n1205 Genève",
+      "model_output": "{\n    \"date\": null,\n    \"total\": 27.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Restaurant\",\n    \"items\": [\n        {\n            \"name\": \"6\",\n            \"quantity\": 6,\n            \"unit_price\": null,\n            \"total_price\": null\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"carte\"\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": 27.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Restaurant\",\n    \"items\": [],\n    \"vat_rate\": 8.1,\n    \"payment_method\": \"carte\"\n}"
+    },
+    {
+      "input": "-\n                  Total : 15.20\nPaiement : TWINT\n\n7\nAldi\nRoute de Meyrin 23\n1217 Meyrin",
+      "model_output": "{\n    \"date\": null,\n    \"total\": 15.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi\",\n    \"items\": null,\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": null,\n    \"total\": 15.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "Restaurant Migros Neuchâtel\nPlace Pury\n\n23.05.2023\n\n1 x Sandwich poulet     6.45\n1 x Eau minérale        2.30",
+      "model_output": "{\n    \"date\": \"23.05.2023\",\n    \"total\": 8.75,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Sandwich poulet\",\n            \"quantity\": 1,\n            \"unit_price\": 6.45,\n            \"total_price\": 6.45\n        },\n        {\n            \"name\": \"Eau minérale\",\n            \"quantity\": 1,\n            \"unit_price\": 2.3,\n            \"total_price\": 2.3\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"23.05.2023\",\n    \"total\": 8.75,\n    \"currency\": \"CHF\",\n    \"store\": \"Restaurant Migros Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Sandwich poulet\",\n            \"quantity\": 1.0,\n            \"unit_price\": 6.45,\n            \"total_price\": 6.45\n        },\n        {\n            \"name\": \"Eau minérale\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.3,\n            \"total_price\": 2.3\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "5  \nAldi Fribourg  \n17.07.2023  \nPoulet rôti          1 x 10.00 Fr.   10.00 Fr.  \nSalade iceberg       1 x 1.20 Fr.     1.20 Fr.  \nFromage Gruyère      1 x 5.50 Fr.     5.50 Fr.  \n  \nTotal                16.70 Fr.  \nNuméro de ticket : 678990",
+      "model_output": "{\n    \"date\": \"17.07.2023\",\n    \"total\": 16.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1,\n            \"unit_price\": 10.0,\n            \"total_price\": 10.0\n        },\n        {\n            \"name\": \"Salade iceberg\",\n            \"quantity\": 1,\n            \"unit_price\": 1.2,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Fromage Gruyère\",\n            \"quantity\": 1,\n            \"unit_price\": 5.5,\n            \"total_price\": 5.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"17.07.2023\",\n    \"total\": 16.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Poulet rôti\",\n            \"quantity\": 1.0,\n            \"unit_price\": 10.0,\n            \"total_price\": 10.0\n        },\n        {\n            \"name\": \"Salade iceberg\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.2,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Fromage Gruyère\",\n            \"quantity\": 1.0,\n            \"unit_price\": 5.5,\n            \"total_price\": 5.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "10\nAligro\nAvenue de Morgarten 15\n2505 Bienne\n14.07.2023\n\n5x Tomates            6.25 Fr.\n3x Pâtes              3.30 Fr.\n2x Sauce tomate       2.80 Fr.\n1x Vin blanc          8.50 Fr.\n\nTotal  : 20.85 Fr.\nTVA 8.1%\n\nCaissier: Lionel Th.",
+      "model_output": "{\n    \"date\": \"14.07.2023\",\n    \"total\": 20.85,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [\n        {\n            \"name\": \"Tomates\",\n            \"quantity\": 5,\n            \"unit_price\": 6.25,\n            \"total_price\": 31.25\n        },\n        {\n            \"name\": \"Pâtes\",\n            \"quantity\": 3,\n            \"unit_price\": 3.3,\n            \"total_price\": 9.9\n        },\n        {\n            \"name\": \"Sauce tomate\",\n            \"quantity\": 2,\n            \"unit_price\": 2.8,\n            \"total_price\": 5.6\n        },\n        {\n            \"name\": \"Vin blanc\",\n            \"quantity\": 1,\n            \"unit_price\": 8.5,\n            \"total_price\": 8.5\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"14.07.2023\",\n    \"total\": 20.85,\n    \"currency\": \"CHF\",\n    \"store\": \"Aligro\",\n    \"items\": [\n        {\n            \"name\": \"Tomates\",\n            \"quantity\": 5.0,\n            \"unit_price\": null,\n            \"total_price\": 6.25\n        },\n        {\n            \"name\": \"Pâtes\",\n            \"quantity\": 3.0,\n            \"unit_price\": null,\n            \"total_price\": 3.3\n        },\n        {\n            \"name\": \"Sauce tomate\",\n            \"quantity\": 2.0,\n            \"unit_price\": null,\n            \"total_price\": 2.8\n        },\n        {\n            \"name\": \"Vin blanc\",\n            \"quantity\": 1.0,\n            \"unit_price\": null,\n            \"total_price\": 8.5\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "Aldi\n04.05.2022\n\n3x Bananes                4.20 Fr\n1x Riz 1 kg                  2.20 Fr\n1x Thon en boîte 80g 1.10 Fr\n\nTotal de l’achat       7.50 Fr\nTVA 2.6% comprise\nMode de Paiement: Espèces",
+      "model_output": "{\n    \"date\": \"04.05.2022\",\n    \"total\": 7.5,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi\",\n    \"items\": [\n        {\n            \"name\": \"Bananes\",\n            \"quantity\": 3,\n            \"unit_price\": 4.2,\n            \"total_price\": 12.6\n        },\n        {\n            \"name\": \"Riz 1 kg\",\n            \"quantity\": 1,\n            \"unit_price\": 2.2,\n            \"total_price\": 2.2\n        },\n        {\n            \"name\": \"Thon en boîte 80g\",\n            \"quantity\": 1,\n            \"unit_price\": 1.1,\n            \"total_price\": 1.1\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"04.05.2022\",\n    \"total\": 7.5,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi\",\n    \"items\": [\n        {\n            \"name\": \"Bananes\",\n            \"quantity\": 3.0,\n            \"unit_price\": 1.4,\n            \"total_price\": 4.2\n        },\n        {\n            \"name\": \"Riz 1 kg\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.2,\n            \"total_price\": 2.2\n        },\n        {\n            \"name\": \"Thon en boîte 80g\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.1,\n            \"total_price\": 1.1\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "14\nDenner Neuchâtel\n17.04.2023\n\nBière blonde       3 x 2.00      6.00 Fr.\nPapier cuisne    1 x 2.50      2.50 Fr.\nNoisettens         1 x 3.70      3.70 Fr.\n\nTotal à régler              12.20 Fr.\nTVA 2.6%                  0.32 Fr.\nEspèces\n\nMerci de votre visite",
+      "model_output": "{\n    \"date\": \"17.04.2023\",\n    \"total\": 12.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Bière blonde\",\n            \"quantity\": 3,\n            \"unit_price\": 2.0,\n            \"total_price\": 6.0\n        },\n        {\n            \"name\": \"Papier cuisne\",\n            \"quantity\": 1,\n            \"unit_price\": 2.5,\n            \"total_price\": 2.5\n        },\n        {\n            \"name\": \"Noisettens\",\n            \"quantity\": 1,\n            \"unit_price\": 3.7,\n            \"total_price\": 3.7\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"17.04.2023\",\n    \"total\": 12.2,\n    \"currency\": \"CHF\",\n    \"store\": \"Denner Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Bière blonde\",\n            \"quantity\": 3.0,\n            \"unit_price\": 2.0,\n            \"total_price\": 6.0\n        },\n        {\n            \"name\": \"Papier cuisne\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.5,\n            \"total_price\": 2.5\n        },\n        {\n            \"name\": \"Noisettens\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.7,\n            \"total_price\": 3.7\n        }\n    ],\n    \"vat_rate\": 2.6,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "19  \nCoop Genève  \nDate: 30.06.2022  \n\n1 x Pain pavot               1.80  \n2 x Jus fruités               3.60  \n1 x Fromage Brie          4.90  \n\nRabais: -5%  \nTotal                 8.68  \nPaiement : Carte",
+      "model_output": "{\n    \"date\": \"30.06.2022\",\n    \"total\": 8.68,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Genève\",\n    \"items\": [\n        {\n            \"name\": \"Pain pavot\",\n            \"quantity\": 1,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        },\n        {\n            \"name\": \"Jus fruités\",\n            \"quantity\": 2,\n            \"unit_price\": 1.8,\n            \"total_price\": 3.6\n        },\n        {\n            \"name\": \"Fromage Brie\",\n            \"quantity\": 1,\n            \"unit_price\": 4.9,\n            \"total_price\": 4.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}",
+      "ground_truth": "{\n    \"date\": \"30.06.2022\",\n    \"total\": 8.68,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Genève\",\n    \"items\": [\n        {\n            \"name\": \"Pain pavot\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        },\n        {\n            \"name\": \"Jus fruités\",\n            \"quantity\": 2.0,\n            \"unit_price\": 1.8,\n            \"total_price\": 3.6\n        },\n        {\n            \"name\": \"Fromage Brie\",\n            \"quantity\": 1.0,\n            \"unit_price\": 4.9,\n            \"total_price\": 4.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "13\nCOOP Meyrin\nAv. de Vaudagne 1\n1217 Meyrin\n\nDate : 14.10.2023\n\n1 x Pommes Tableau 1 kg   3.75\n1 x Jus d'orange 1L          2.90\n1 x Yogourt nature 180g  0.90\n\nRabais -1,00\n\nTotal                    6.55 CHF\n\nMode de paiement : TWINT",
+      "model_output": "{\n    \"date\": \"14.10.2023\",\n    \"total\": 6.55,\n    \"currency\": \"CHF\",\n    \"store\": \"COOP Meyrin\",\n    \"items\": [\n        {\n            \"name\": \"Pommes Tableau 1 kg\",\n            \"quantity\": 1,\n            \"unit_price\": 3.75,\n            \"total_price\": 3.75\n        },\n        {\n            \"name\": \"Jus d'orange 1L\",\n            \"quantity\": 1,\n            \"unit_price\": 2.9,\n            \"total_price\": 2.9\n        },\n        {\n            \"name\": \"Yogourt nature 180g\",\n            \"quantity\": 1,\n            \"unit_price\": 0.9,\n            \"total_price\": 0.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"14.10.2023\",\n    \"total\": 6.55,\n    \"currency\": \"CHF\",\n    \"store\": \"COOP Meyrin\",\n    \"items\": [\n        {\n            \"name\": \"Pommes Tableau 1 kg\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.75,\n            \"total_price\": 3.75\n        },\n        {\n            \"name\": \"Jus d'orange 1L\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.9,\n            \"total_price\": 2.9\n        },\n        {\n            \"name\": \"Yogourt nature 180g\",\n            \"quantity\": 1.0,\n            \"unit_price\": 0.9,\n            \"total_price\": 0.9\n        },\n        {\n            \"name\": \"Rabais\",\n            \"quantity\": null,\n            \"unit_price\": -1.0,\n            \"total_price\": -1.0\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "--  \n\n3\nAldi Sierre  \n22.07.2022",
+      "model_output": "{\n    \"date\": \"22.07.2022\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Sierre\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"22.07.2022\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Sierre\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "15  \nMigros Fribourg  \nDate: 27.09.2023  \n\n1 x Lait entier               1.20  \n1 x Beurre doux           2.50  \n\nTotal                    3.70  \nPaiement : Carte",
+      "model_output": "{\n    \"date\": \"27.09.2023\",\n    \"total\": 3.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Lait entier\",\n            \"quantity\": 1,\n            \"unit_price\": 1.2,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Beurre doux\",\n            \"quantity\": 1,\n            \"unit_price\": 2.5,\n            \"total_price\": 2.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}",
+      "ground_truth": "{\n    \"date\": \"27.09.2023\",\n    \"total\": 3.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Fribourg\",\n    \"items\": [\n        {\n            \"name\": \"Lait entier\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.2,\n            \"total_price\": 1.2\n        },\n        {\n            \"name\": \"Beurre doux\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.5,\n            \"total_price\": 2.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte\"\n}"
+    },
+    {
+      "input": "-\n\n3\nAldi Neuchâtel\n16.09.2022\n\nSalade verte      1 x 1.95  Fr.\nLait entier         1 x 1.25  Fr.\nCafé instant.      1 x 4.50  Fr.\n\nTotal:                7.70  Fr.\nEspèces:            10.00 Fr.\nRendu:              2.30  Fr.",
+      "model_output": "{\n    \"date\": \"16.09.2022\",\n    \"total\": 7.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Salade verte\",\n            \"quantity\": 1,\n            \"unit_price\": 1.95,\n            \"total_price\": 1.95\n        },\n        {\n            \"name\": \"Lait entier\",\n            \"quantity\": 1,\n            \"unit_price\": 1.25,\n            \"total_price\": 1.25\n        },\n        {\n            \"name\": \"Café instant.\",\n            \"quantity\": 1,\n            \"unit_price\": 4.5,\n            \"total_price\": 4.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"16.09.2022\",\n    \"total\": 7.7,\n    \"currency\": \"CHF\",\n    \"store\": \"Aldi Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Salade verte\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.95,\n            \"total_price\": 1.95\n        },\n        {\n            \"name\": \"Lait entier\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.25,\n            \"total_price\": 1.25\n        },\n        {\n            \"name\": \"Café instant.\",\n            \"quantity\": 1.0,\n            \"unit_price\": 4.5,\n            \"total_price\": 4.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Espèces\"\n}"
+    },
+    {
+      "input": "COOP - Nyon\n\n18.01.2023\n\n1x    Jus de pomme 1L           2.20\n2x    Yaourt nature             1.60\n1x    Croque-Monsieur           3.80\n1x    Lentilles                  1.50\n\nTOTAL               9.10 Fr.\nTVA incl.\n\nMerci de votre achat!",
+      "model_output": "{\n    \"date\": \"18.01.2023\",\n    \"total\": 9.1,\n    \"currency\": \"CHF\",\n    \"store\": \"COOP - Nyon\",\n    \"items\": [\n        {\n            \"name\": \"Jus de pomme 1L\",\n            \"quantity\": 1,\n            \"unit_price\": 2.2,\n            \"total_price\": 2.2\n        },\n        {\n            \"name\": \"Yaourt nature\",\n            \"quantity\": 2,\n            \"unit_price\": 1.6,\n            \"total_price\": 3.2\n        },\n        {\n            \"name\": \"Croque-Monsieur\",\n            \"quantity\": 1,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        },\n        {\n            \"name\": \"Lentilles\",\n            \"quantity\": 1,\n            \"unit_price\": 1.5,\n            \"total_price\": 1.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"18.01.2023\",\n    \"total\": 9.1,\n    \"currency\": \"CHF\",\n    \"store\": \"COOP - Nyon\",\n    \"items\": [\n        {\n            \"name\": \"Jus de pomme 1L\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.2,\n            \"total_price\": 2.2\n        },\n        {\n            \"name\": \"Yaourt nature\",\n            \"quantity\": 2.0,\n            \"unit_price\": 0.8,\n            \"total_price\": 1.6\n        },\n        {\n            \"name\": \"Croque-Monsieur\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.8,\n            \"total_price\": 3.8\n        },\n        {\n            \"name\": \"Lentilles\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.5,\n            \"total_price\": 1.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "11  \nMigros Neuchâtel  \nDate: 13.09.2022  \n  \n2x Tarte aux fruits     7.30 Fr.   \n1x Pomme               1.25 Fr.   \n3x Café grains         5.40 Fr.   \n  \nRabais - 1.00 Fr.  \nTotal                12.95 Fr.  \nTVA incl. : 8.1%",
+      "model_output": "{\n    \"date\": \"13.09.2022\",\n    \"total\": 12.95,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Tarte aux fruits\",\n            \"quantity\": 2,\n            \"unit_price\": 3.65,\n            \"total_price\": 7.3\n        },\n        {\n            \"name\": \"Pomme\",\n            \"quantity\": 1,\n            \"unit_price\": 1.25,\n            \"total_price\": 1.25\n        },\n        {\n            \"name\": \"Café grains\",\n            \"quantity\": 3,\n            \"unit_price\": 1.8,\n            \"total_price\": 5.4\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"13.09.2022\",\n    \"total\": 12.95,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Neuchâtel\",\n    \"items\": [\n        {\n            \"name\": \"Tarte aux fruits\",\n            \"quantity\": 2.0,\n            \"unit_price\": null,\n            \"total_price\": 7.3\n        },\n        {\n            \"name\": \"Pomme\",\n            \"quantity\": 1.0,\n            \"unit_price\": null,\n            \"total_price\": 1.25\n        },\n        {\n            \"name\": \"Café grains\",\n            \"quantity\": 3.0,\n            \"unit_price\": null,\n            \"total_price\": 5.4\n        },\n        {\n            \"name\": \"Rabais\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -1.0\n        }\n    ],\n    \"vat_rate\": 8.1,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "2  \nCoop Morges   \n03.07.2023  \n  \n1 x Fromage Gruyère 150g   5.90  \n3 x Tomates 500g           2.70  8.10  \n1 x Bière locale           1.80  \n\nTotal                     15.80  \nRabais Coop               -1.00  \n\nTotal à payer             14.80  \nTWINT",
+      "model_output": "{\n    \"date\": \"03.07.2023\",\n    \"total\": 14.8,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Morges\",\n    \"items\": [\n        {\n            \"name\": \"Fromage Gruyère 150g\",\n            \"quantity\": 1,\n            \"unit_price\": 5.9,\n            \"total_price\": 5.9\n        },\n        {\n            \"name\": \"Tomates 500g\",\n            \"quantity\": 3,\n            \"unit_price\": 0.9,\n            \"total_price\": 8.1\n        },\n        {\n            \"name\": \"Bière locale\",\n            \"quantity\": 1,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}",
+      "ground_truth": "{\n    \"date\": \"03.07.2023\",\n    \"total\": 14.8,\n    \"currency\": \"CHF\",\n    \"store\": \"Coop Morges\",\n    \"items\": [\n        {\n            \"name\": \"Fromage Gruyère 150g\",\n            \"quantity\": 1.0,\n            \"unit_price\": 5.9,\n            \"total_price\": 5.9\n        },\n        {\n            \"name\": \"Tomates 500g\",\n            \"quantity\": 3.0,\n            \"unit_price\": 2.7,\n            \"total_price\": 8.1\n        },\n        {\n            \"name\": \"Bière locale\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"TWINT\"\n}"
+    },
+    {
+      "input": "20  \nMigros Lausanne  \nDate: 08.10.2023  \n\n1 x Café expresso         2.80  \n1 x Tartelettes framboise   3.50  \n\nTotal                    6.30  \nPaiement : en espèces",
+      "model_output": "{\n    \"date\": \"08.10.2023\",\n    \"total\": 6.3,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Café expresso\",\n            \"quantity\": 1,\n            \"unit_price\": 2.8,\n            \"total_price\": 2.8\n        },\n        {\n            \"name\": \"Tartelettes framboise\",\n            \"quantity\": 1,\n            \"unit_price\": 3.5,\n            \"total_price\": 3.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"espèces\"\n}",
+      "ground_truth": "{\n    \"date\": \"08.10.2023\",\n    \"total\": 6.3,\n    \"currency\": \"CHF\",\n    \"store\": \"Migros Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Café expresso\",\n            \"quantity\": 1.0,\n            \"unit_price\": 2.8,\n            \"total_price\": 2.8\n        },\n        {\n            \"name\": \"Tartelettes framboise\",\n            \"quantity\": 1.0,\n            \"unit_price\": 3.5,\n            \"total_price\": 3.5\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"espèces\"\n}"
+    },
+    {
+      "input": "-\nDate:23.01.2023  Heure: 18:37\nCaissier/e: Lea\n\n3 x Œufs 12p              5.50\n1 x Poulet entier     11.20\n1 x Salade verte        1.80\n2 x Fromage râpé       6.80\n1 x Saumon fumé       8.10\n- Rabais -5%          -1.59",
+      "model_output": "{\n    \"date\": \"23.01.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [\n        {\n            \"name\": \"Œufs 12p\",\n            \"quantity\": 3,\n            \"unit_price\": 5.5,\n            \"total_price\": 16.5\n        },\n        {\n            \"name\": \"Poulet entier\",\n            \"quantity\": 1,\n            \"unit_price\": 11.2,\n            \"total_price\": 11.2\n        },\n        {\n            \"name\": \"Salade verte\",\n            \"quantity\": 1,\n            \"unit_price\": 1.8,\n            \"total_price\": 1.8\n        },\n        {\n            \"name\": \"Fromage râpé\",\n            \"quantity\": 2,\n            \"unit_price\": 6.8,\n            \"total_price\": 13.6\n        },\n        {\n            \"name\": \"Saumon fumé\",\n            \"quantity\": 1,\n            \"unit_price\": 8.1,\n            \"total_price\": 8.1\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"23.01.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": null,\n    \"items\": [\n        {\n            \"name\": \"Œufs 12p\",\n            \"quantity\": 3.0,\n            \"unit_price\": 5.5,\n            \"total_price\": null\n        },\n        {\n            \"name\": \"Poulet entier\",\n            \"quantity\": 1.0,\n            \"unit_price\": 11.2,\n            \"total_price\": null\n        },\n        {\n            \"name\": \"Salade verte\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.8,\n            \"total_price\": null\n        },\n        {\n            \"name\": \"Fromage râpé\",\n            \"quantity\": 2.0,\n            \"unit_price\": 6.8,\n            \"total_price\": null\n        },\n        {\n            \"name\": \"Saumon fumé\",\n            \"quantity\": 1.0,\n            \"unit_price\": 8.1,\n            \"total_price\": null\n        },\n        {\n            \"name\": \"Rabais -5%\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": -1.59\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "--  \n\n8\nAligro Renens  \n16.10.2023",
+      "model_output": "{\n    \"date\": \"16.10.2023\",\n    \"total\": null,\n    \"currency\": \"CHF\",\n    \"store\": \"Aligro Renens\",\n    \"items\": [\n        {\n            \"name\": \"8\",\n            \"quantity\": null,\n            \"unit_price\": null,\n            \"total_price\": null\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}",
+      "ground_truth": "{\n    \"date\": \"16.10.2023\",\n    \"total\": 8.0,\n    \"currency\": \"CHF\",\n    \"store\": \"Aligro Renens\",\n    \"items\": [],\n    \"vat_rate\": null,\n    \"payment_method\": null\n}"
+    },
+    {
+      "input": "15\nManor Lausanne\n05.10.2022\n\nLait entier           1 x 1.60 Fr.\nButter croissant      3 x 1.30 Fr.\n\nTotal                 5.50 Fr.\n\nCarte de crédit",
+      "model_output": "{\n    \"date\": \"05.10.2022\",\n    \"total\": 5.5,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Lait entier\",\n            \"quantity\": 1,\n            \"unit_price\": 1.6,\n            \"total_price\": 1.6\n        },\n        {\n            \"name\": \"Butter croissant\",\n            \"quantity\": 3,\n            \"unit_price\": 1.3,\n            \"total_price\": 3.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte de crédit\"\n}",
+      "ground_truth": "{\n    \"date\": \"05.10.2022\",\n    \"total\": 5.5,\n    \"currency\": \"CHF\",\n    \"store\": \"Manor Lausanne\",\n    \"items\": [\n        {\n            \"name\": \"Lait entier\",\n            \"quantity\": 1.0,\n            \"unit_price\": 1.6,\n            \"total_price\": 1.6\n        },\n        {\n            \"name\": \"Butter croissant\",\n            \"quantity\": 3.0,\n            \"unit_price\": 1.3,\n            \"total_price\": 3.9\n        }\n    ],\n    \"vat_rate\": null,\n    \"payment_method\": \"Carte de crédit\"\n}"
+    }
+  ]
+}

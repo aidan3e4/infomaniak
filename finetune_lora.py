@@ -7,6 +7,7 @@ Usage:
     python finetune_lora.py
 """
 
+from dotenv import load_dotenv
 import json
 
 from datasets import Dataset
@@ -14,11 +15,13 @@ from peft import LoraConfig, get_peft_model
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import SFTTrainer, SFTConfig
 
+load_dotenv()
+
 # ====================
 # Configuration
 # ====================
 MODEL_NAME = "Qwen/Qwen3-4B-Instruct-2507"
-DATASET_FILE = "receipt_dataset.jsonl"
+DATASET_FILE = "receipt_dataset_1000_train.jsonl"
 OUTPUT_DIR = "./receipt-lora-output"
 HF_REPO_ID = "aidan3e4/receipt-lora-qwen3-4b"
 MAX_SEQ_LENGTH = 2048
@@ -29,7 +32,7 @@ LORA_ALPHA = 32
 LORA_DROPOUT = 0.0
 
 # Training params
-NUM_EPOCHS = 3
+NUM_EPOCHS = 1
 BATCH_SIZE = 2
 GRAD_ACCUM_STEPS = 4  # effective batch size = 2 * 4 = 8
 LEARNING_RATE = 2e-4

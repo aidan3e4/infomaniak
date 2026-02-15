@@ -1,0 +1,3763 @@
+
+    <html>
+    <head>
+        <title>Évaluation — Qwen/Qwen3-4B-Instruct-2507</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .config { background-color: #e3f2fd; border: 1px solid #90caf9; padding: 15px; border-radius: 5px; margin-bottom: 25px; }
+            .config h2 { margin-top: 0; }
+            .score-banner { background-color: #ff9800; color: white; padding: 20px; border-radius: 5px; margin-bottom: 25px; text-align: center; }
+            .score-banner h2 { margin: 0; font-size: 2em; }
+            .score-banner p { margin: 5px 0 0 0; }
+            .entry { border: 1px solid #ccc; margin-bottom: 20px; padding: 10px; border-radius: 5px; }
+            .header { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
+            .score-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; color: white; font-weight: bold; margin-left: 10px; }
+            .score-good { background-color: #4caf50; }
+            .score-mid { background-color: #ff9800; }
+            .score-bad { background-color: #f44336; }
+            .errors { background-color: #fff3e0; padding: 8px; margin-top: 8px; border-radius: 3px; font-size: 0.85em; }
+            .errors li { color: #e65100; }
+            .container { display: flex; flex-wrap: wrap; }
+            .col { flex: 1; min-width: 30%; padding: 10px; }
+            .col-input { background-color: #f9f9f9; border-right: 1px solid #ddd; }
+            .col-model { background-color: #fff8e1; border-right: 1px solid #ddd; }
+            .col-truth { background-color: #e8f5e9; }
+            pre { white-space: pre-wrap; word-wrap: break-word; font-size: 0.85em; }
+        </style>
+    </head>
+    <body>
+        <h1>Évaluation du modèle — Extraction de tickets de caisse</h1>
+        <div class="score-banner">
+            <h2>88.5%</h2>
+            <p>Score moyen sur 50 tickets (min: 44.4%, max: 100.0%)</p>
+            <p>Erreurs de schéma : 0</p>
+        </div>
+        <div class="config">
+            <h2>Configuration</h2>
+            <p><strong>Modèle :</strong> Qwen/Qwen3-4B-Instruct-2507</p>
+            <p><strong>LoRA adapter :</strong> aidan3e4/receipt-lora-qwen3-4b</p>
+            <p><strong>Date :</strong> 2026-02-15T21:26:36.927658</p>
+            <p><strong>Entrées évaluées :</strong> 50</p>
+            <p><strong>System prompt :</strong></p>
+            <pre>Tu es un extracteur parfait de tickets de caisse suisses. Extrais les informations en respectant strictement le schéma. Utilise null pour les valeurs manquantes ou illisibles. Les prix sont des nombres décimaux (utilise . et non ,). Les dates sont toujours au format JJ.MM.AAAA si présentes. N&#x27;invente rien — utilise uniquement ce qui est dans le texte. Renvoie uniquement l&#x27;objet JSON — pas de texte supplémentaire.</pre>
+            <p><strong>User prompt template :</strong></p>
+            <pre>{instruction}
+
+Ticket de caisse :
+
+{receipt_text}</pre>
+        </div>
+    
+        <div class="entry">
+            <div class="header">Entrée 1 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>5
+Restaurant Migros
+Rue du Simplon 13
+1800 Vevey
+
+25.03.2023
+
+1x Café crème              3.20
+1x Croissant                 1.80
+
+Total                           5.00
+
+TVA incl.
+
+Espèces                    10.00
+Rendu                       5.00</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;25.03.2023&quot;,
+    &quot;total&quot;: 5.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Café crème&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.2,
+            &quot;total_price&quot;: 3.2
+        },
+        {
+            &quot;name&quot;: &quot;Croissant&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;25.03.2023&quot;,
+    &quot;total&quot;: 5.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Café crème&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.2,
+            &quot;total_price&quot;: 3.2
+        },
+        {
+            &quot;name&quot;: &quot;Croissant&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 2 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>2  
+Coop Lausanne  
+15.07.2023  
+
+Bananes                    1kg x 3.20 Fr.     3.20 Fr.  
+Poulet rôti                   1 x 7.50 Fr.     7.50 Fr.  
+Riz basmati 1kg         1 x 2.90 Fr.     2.90 Fr.  
+
+Total                                      13.60 Fr.  
+Rabais -  5%                    -   0.68 Fr.  
+
+Total après rabais                12.92 Fr.  
+Espèces</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;15.07.2023&quot;,
+    &quot;total&quot;: 12.92,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bananes&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.2,
+            &quot;total_price&quot;: 3.2
+        },
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 7.5,
+            &quot;total_price&quot;: 7.5
+        },
+        {
+            &quot;name&quot;: &quot;Riz basmati 1kg&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.9,
+            &quot;total_price&quot;: 2.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;15.07.2023&quot;,
+    &quot;total&quot;: 12.92,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bananes&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.2,
+            &quot;total_price&quot;: 3.2
+        },
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 7.5,
+            &quot;total_price&quot;: 7.5
+        },
+        {
+            &quot;name&quot;: &quot;Riz basmati 1kg&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.9,
+            &quot;total_price&quot;: 2.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 3 <span class="score-badge score-good">91%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Migros - Lausanne
+
+23.09.2023
+
+1x    Lait UHT Migros     1.20
+1x    Fromage Gruyère     3.90
+2x    Pain complet        2.80
+1x    Chocolat suisse     1.50
+
+Total       9.40 Fr.
+PAYEMENT    Carte
+
+Caissier(ère): Julie</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;23.09.2023&quot;,
+    &quot;total&quot;: 9.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros - Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Lait UHT Migros&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Gruyère&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.9,
+            &quot;total_price&quot;: 3.9
+        },
+        {
+            &quot;name&quot;: &quot;Pain complet&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 2.8,
+            &quot;total_price&quot;: 5.6
+        },
+        {
+            &quot;name&quot;: &quot;Chocolat suisse&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 1.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;23.09.2023&quot;,
+    &quot;total&quot;: 9.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros - Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Lait UHT Migros&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Gruyère&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.9,
+            &quot;total_price&quot;: 3.9
+        },
+        {
+            &quot;name&quot;: &quot;Pain complet&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.4,
+            &quot;total_price&quot;: 2.8
+        },
+        {
+            &quot;name&quot;: &quot;Chocolat suisse&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 1.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Pain complet&#x27; field &#x27;unit_price&#x27;: predicted=2.8, expected=1.4</li><li>Item &#x27;Pain complet&#x27; field &#x27;total_price&#x27;: predicted=5.6, expected=2.8</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 4 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+
+20
+Restaurant Migros Genève
+09/04/2022
+
+Poulet rôti        1 x 14.90
+Salade verte       1 x 3.80
+Tarte citron       1 x 4.00
+
+Total               22.70 Fr.
+TVA 8.1% incluse
+
+Carte banquaire</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;09.04.2022&quot;,
+    &quot;total&quot;: 22.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Genève&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 14.9,
+            &quot;total_price&quot;: 14.9
+        },
+        {
+            &quot;name&quot;: &quot;Salade verte&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        },
+        {
+            &quot;name&quot;: &quot;Tarte citron&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 4.0,
+            &quot;total_price&quot;: 4.0
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;Carte banquaire&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;09.04.2022&quot;,
+    &quot;total&quot;: 22.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Genève&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 14.9,
+            &quot;total_price&quot;: 14.9
+        },
+        {
+            &quot;name&quot;: &quot;Salade verte&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        },
+        {
+            &quot;name&quot;: &quot;Tarte citron&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 4.0,
+            &quot;total_price&quot;: 4.0
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;Carte banquaire&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 5 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>5  
+Lidl Nyon  
+Date : 30.03.2023  
+
+1x Chocolat noir 80%     2.10 CHF  
+2x Bi ère 50cl           1.90 CHF  
+2.6% TVA incluse  
+Total :                  5.90 CHF  
+
+Paiement : TWINT</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.03.2023&quot;,
+    &quot;total&quot;: 5.9,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Lidl Nyon&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolat noir 80%&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.1,
+            &quot;total_price&quot;: 2.1
+        },
+        {
+            &quot;name&quot;: &quot;Bi ère 50cl&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 1.9,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.03.2023&quot;,
+    &quot;total&quot;: 5.9,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Lidl Nyon&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolat noir 80%&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.1,
+            &quot;total_price&quot;: 2.1
+        },
+        {
+            &quot;name&quot;: &quot;Bi ère 50cl&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.9,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 6 <span class="score-badge score-bad">67%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>9
+Aldi
+Route de Genève 25
+1000 Lausanne
+
+28.02.2023
+
+2x Chocolat au lait      3.40
+1x Jambon cru            4.50
+
+Réduction -2.00 Fr.   -2.00
+
+Total                        5.90
+
+TVA incl.
+
+Espèces                     6.00
+Rendu                        0.10</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;28.02.2023&quot;,
+    &quot;total&quot;: 5.9,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolat au lait&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 3.4,
+            &quot;total_price&quot;: 6.8
+        },
+        {
+            &quot;name&quot;: &quot;Jambon cru&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 4.5,
+            &quot;total_price&quot;: 4.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;28.02.2023&quot;,
+    &quot;total&quot;: 5.9,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolat au lait&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.7,
+            &quot;total_price&quot;: 3.4
+        },
+        {
+            &quot;name&quot;: &quot;Jambon cru&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 4.5,
+            &quot;total_price&quot;: 4.5
+        },
+        {
+            &quot;name&quot;: &quot;Réduction&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -2.0
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Chocolat au lait&#x27; field &#x27;unit_price&#x27;: predicted=3.4, expected=1.7</li><li>Item &#x27;Chocolat au lait&#x27; field &#x27;total_price&#x27;: predicted=6.8, expected=3.4</li><li>Missing item: &#x27;Réduction&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 7 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>4  
+Denner Neuchâtel  
+02.07.2023  
+
+3x Bière blonde            6.00  
+1x Fromage à raclette      7.90  
+2x Chips nature            4.40  
+
+Total :                   18.30 CHF</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;02.07.2023&quot;,
+    &quot;total&quot;: 18.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bière blonde&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 2.0,
+            &quot;total_price&quot;: 6.0
+        },
+        {
+            &quot;name&quot;: &quot;Fromage à raclette&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 7.9,
+            &quot;total_price&quot;: 7.9
+        },
+        {
+            &quot;name&quot;: &quot;Chips nature&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 2.2,
+            &quot;total_price&quot;: 4.4
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;02.07.2023&quot;,
+    &quot;total&quot;: 18.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bière blonde&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 2.0,
+            &quot;total_price&quot;: 6.0
+        },
+        {
+            &quot;name&quot;: &quot;Fromage à raclette&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 7.9,
+            &quot;total_price&quot;: 7.9
+        },
+        {
+            &quot;name&quot;: &quot;Chips nature&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 2.2,
+            &quot;total_price&quot;: 4.4
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 8 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Restaurant Migros Lausanne
+05.05.2023</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;05.05.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Lausanne&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;05.05.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Lausanne&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 9 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>4   
+ALDI  
+08.08.2023  
+
+Confiture bio     1 x    4.20 Fr.  
+Pommes            1 x    2.60 Fr.  
+Café grain        1 x    6.70 Fr.  
+Total            13.50 Fr.  
+TWINT  
+Ticket 3241</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;08.08.2023&quot;,
+    &quot;total&quot;: 13.5,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;ALDI&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Confiture bio&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 4.2,
+            &quot;total_price&quot;: 4.2
+        },
+        {
+            &quot;name&quot;: &quot;Pommes&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.6,
+            &quot;total_price&quot;: 2.6
+        },
+        {
+            &quot;name&quot;: &quot;Café grain&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 6.7,
+            &quot;total_price&quot;: 6.7
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;08.08.2023&quot;,
+    &quot;total&quot;: 13.5,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;ALDI&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Confiture bio&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 4.2,
+            &quot;total_price&quot;: 4.2
+        },
+        {
+            &quot;name&quot;: &quot;Pommes&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.6,
+            &quot;total_price&quot;: 2.6
+        },
+        {
+            &quot;name&quot;: &quot;Café grain&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 6.7,
+            &quot;total_price&quot;: 6.7
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 10 <span class="score-badge score-good">94%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>6
+Manor
+04.03.2023
+
+Shampooing              1 x    5.50 CHF
+Déodorant                1 x    6.80 CHF
+Parfum de Savoie     1 x  50.00 CHF
+
+TVA 8.1%
+
+Total                                    CHF 62.30
+
+Carte</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;04.03.2023&quot;,
+    &quot;total&quot;: 62.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;Carte&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Shampooing&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 5.5
+        },
+        {
+            &quot;name&quot;: &quot;Déodorant&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 6.8,
+            &quot;total_price&quot;: 6.8
+        },
+        {
+            &quot;name&quot;: &quot;Parfum de Savoie&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 50.0,
+            &quot;total_price&quot;: 50.0
+        }
+    ]
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;04.03.2023&quot;,
+    &quot;total&quot;: 62.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Shampooing&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 5.5
+        },
+        {
+            &quot;name&quot;: &quot;Déodorant&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 6.8,
+            &quot;total_price&quot;: 6.8
+        },
+        {
+            &quot;name&quot;: &quot;Parfum de Savoie&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 50.0,
+            &quot;total_price&quot;: 50.0
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;store&#x27;: predicted=None, expected=&#x27;Manor&#x27;</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 11 <span class="score-badge score-mid">78%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>18
+Denner Bas-Vully
+Route du Vully 18
+1786 Bas-Vully
+
+30.07.2023
+Article      Qté    Prix  Total
+Jambon cru   0.3kg  45.00/kg  13.50
+Fromage Tilsit 0.6kg 24.80/kg 14.88
+Rabais -3.00 Fr.
+Total       25.38 FS
+
+Carte bancaire
+Merci de votre visite!</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.07.2023&quot;,
+    &quot;total&quot;: 25.38,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Bas-Vully&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Jambon cru&quot;,
+            &quot;quantity&quot;: 0.3,
+            &quot;unit_price&quot;: 45.0,
+            &quot;total_price&quot;: 13.5
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Tilsit&quot;,
+            &quot;quantity&quot;: 0.6,
+            &quot;unit_price&quot;: 24.8,
+            &quot;total_price&quot;: 14.88
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte bancaire&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.07.2023&quot;,
+    &quot;total&quot;: 25.38,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Bas-Vully&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Jambon cru&quot;,
+            &quot;quantity&quot;: 0.3,
+            &quot;unit_price&quot;: 45.0,
+            &quot;total_price&quot;: 13.5
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Tilsit&quot;,
+            &quot;quantity&quot;: 0.6,
+            &quot;unit_price&quot;: 24.8,
+            &quot;total_price&quot;: 14.88
+        },
+        {
+            &quot;name&quot;: &quot;Rabais&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -3.0
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte bancaire&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Missing item: &#x27;Rabais&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 12 <span class="score-badge score-mid">83%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>3
+Restaurant Migros
+Genève Balexert
+Date: 22.11.2023</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.11.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.11.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Genève Balexert&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;store&#x27;: predicted=&#x27;Restaurant Migros&#x27;, expected=&#x27;Restaurant Migros Genève Balexert&#x27;</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 13 <span class="score-badge score-mid">78%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>11  
+Denner  
+31.01.2023  
+Chocolat au lait  1 x 2.90 Fr.  = 2.90 Fr.
+Eau gazeuse     6 x 1.50 Fr.  = 9.00 Fr.
+-2.00 Fr. Remise
+Total TVA incl  9.90 Fr.
+Carte</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;31.01.2023&quot;,
+    &quot;total&quot;: 9.9,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolat au lait&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.9,
+            &quot;total_price&quot;: 2.9
+        },
+        {
+            &quot;name&quot;: &quot;Eau gazeuse&quot;,
+            &quot;quantity&quot;: 6,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 9.0
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;31.01.2023&quot;,
+    &quot;total&quot;: 9.9,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolat au lait&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.9,
+            &quot;total_price&quot;: 2.9
+        },
+        {
+            &quot;name&quot;: &quot;Eau gazeuse&quot;,
+            &quot;quantity&quot;: 6.0,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 9.0
+        },
+        {
+            &quot;name&quot;: &quot;Remise&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -2.0
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Missing item: &#x27;Remise&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 14 <span class="score-badge score-mid">89%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>9
+Migros
+09.02.2022
+
+Courgettes 0.75kg    4.95  CHF/kg     3.71 CHF
+Lait 1L                           1    x     1.45 CHF
+Pain paysan                2    x    1.90 CHF    3.80 CHF
+
+Total                                    CHF 9.81
+
+Espèces</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;09.02.2022&quot;,
+    &quot;total&quot;: 9.81,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Courgettes 0.75kg&quot;,
+            &quot;quantity&quot;: 0.75,
+            &quot;unit_price&quot;: 4.95,
+            &quot;total_price&quot;: 3.71
+        },
+        {
+            &quot;name&quot;: &quot;Lait 1L&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.45,
+            &quot;total_price&quot;: 1.45
+        },
+        {
+            &quot;name&quot;: &quot;Pain paysan&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 1.9,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;09.02.2022&quot;,
+    &quot;total&quot;: 9.81,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Courgettes&quot;,
+            &quot;quantity&quot;: 0.75,
+            &quot;unit_price&quot;: 4.95,
+            &quot;total_price&quot;: 3.71
+        },
+        {
+            &quot;name&quot;: &quot;Lait 1L&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.45,
+            &quot;total_price&quot;: null
+        },
+        {
+            &quot;name&quot;: &quot;Pain paysan&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.9,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Lait 1L&#x27; field &#x27;total_price&#x27;: predicted=1.45, expected=None</li><li>Item &#x27;Courgettes&#x27; field &#x27;name&#x27;: predicted=&#x27;Courgettes 0.75kg&#x27;, expected=&#x27;Courgettes&#x27;</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 15 <span class="score-badge score-good">94%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>5  
+Aldi Sion  
+17.05.2022  
+  
+1 x Beurre                 2.10  
+3 x Bananes 1kg           4.50  13.50  
+1 x Riz Basmati           3.80  
+
+Total                     19.40  
+
+Paiement : TWINT</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;17.05.2022&quot;,
+    &quot;total&quot;: 19.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Sion&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Beurre&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.1,
+            &quot;total_price&quot;: 2.1
+        },
+        {
+            &quot;name&quot;: &quot;Bananes 1kg&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 13.5
+        },
+        {
+            &quot;name&quot;: &quot;Riz Basmati&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;17.05.2022&quot;,
+    &quot;total&quot;: 19.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Sion&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Beurre&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.1,
+            &quot;total_price&quot;: 2.1
+        },
+        {
+            &quot;name&quot;: &quot;Bananes 1kg&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 4.5,
+            &quot;total_price&quot;: 13.5
+        },
+        {
+            &quot;name&quot;: &quot;Riz Basmati&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Bananes 1kg&#x27; field &#x27;unit_price&#x27;: predicted=1.5, expected=4.5</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 16 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>4  
+Manor Lausanne  
+22.04.2023  
+T-shirt Homme        1x 29.90 Fr.   29.90 Fr.  
+Jeans Levi&#x27;s         1x 89.90 Fr.   89.90 Fr.  
+  
+Total                119.80 Fr.  
+TVA 8.1% incluse  
+Paiement : TWINT  
+Caissière: Sophie</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.04.2023&quot;,
+    &quot;total&quot;: 119.8,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;T-shirt Homme&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 29.9,
+            &quot;total_price&quot;: 29.9
+        },
+        {
+            &quot;name&quot;: &quot;Jeans Levi&#x27;s&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 89.9,
+            &quot;total_price&quot;: 89.9
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.04.2023&quot;,
+    &quot;total&quot;: 119.8,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;T-shirt Homme&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 29.9,
+            &quot;total_price&quot;: 29.9
+        },
+        {
+            &quot;name&quot;: &quot;Jeans Levi&#x27;s&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 89.9,
+            &quot;total_price&quot;: 89.9
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 17 <span class="score-badge score-bad">44%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>20
+Aligro
+22.10.2023
+Saucisses Viennoises  1.2kg x 10.00 Fr./kg
+Eau plate             6x 1.00 Fr.
+Total :           22.00 Fr.
+Paiement : Espèce
+TVA incl. 2.6%</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.10.2023&quot;,
+    &quot;total&quot;: 22.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Espèce&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Saucisses Viennoises  1.2kg x 10.00 Fr./kg&quot;,
+            &quot;quantity&quot;: 1.2,
+            &quot;unit_price&quot;: 10.0,
+            &quot;total_price&quot;: 12.0
+        },
+        {
+            &quot;name&quot;: &quot;Eau plate             6x 1.00 Fr.&quot;,
+            &quot;quantity&quot;: 6,
+            &quot;unit_price&quot;: 1.0,
+            &quot;total_price&quot;: 6.0
+        }
+    ]
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.10.2023&quot;,
+    &quot;total&quot;: 22.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aligro&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Saucisses Viennoises&quot;,
+            &quot;quantity&quot;: 1.2,
+            &quot;unit_price&quot;: 10.0,
+            &quot;total_price&quot;: 12.0
+        },
+        {
+            &quot;name&quot;: &quot;Eau plate&quot;,
+            &quot;quantity&quot;: 6.0,
+            &quot;unit_price&quot;: 1.0,
+            &quot;total_price&quot;: 6.0
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Espèce&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;store&#x27;: predicted=None, expected=&#x27;Aligro&#x27;</li><li>Item &#x27;Saucisses Viennoises&#x27; field &#x27;name&#x27;: predicted=&#x27;Saucisses Viennoises  1.2kg x 10.00 Fr./kg&#x27;, expected=&#x27;Saucisses Viennoises&#x27;</li><li>Missing item: &#x27;Eau plate&#x27; (not found in prediction)</li><li>Extra item: &#x27;Eau plate             6x 1.00 Fr.&#x27; (not in ground truth)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 18 <span class="score-badge score-mid">89%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Manor - Fribourg
+
+08.03.2023
+
+1x    Shampooing Pantene      6.20
+2x    Gel douche Nivea        8.40
+1x    Café moulu Moka         5.50
+
+TOTAL               20.10 Fr.
+Merci et bonne journée!</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;08.03.2023&quot;,
+    &quot;total&quot;: 20.1,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor - Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Shampooing Pantene&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 6.2,
+            &quot;total_price&quot;: 6.2
+        },
+        {
+            &quot;name&quot;: &quot;Gel douche Nivea&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 8.4,
+            &quot;total_price&quot;: 16.8
+        },
+        {
+            &quot;name&quot;: &quot;Café moulu Moka&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 5.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;08.03.2023&quot;,
+    &quot;total&quot;: 20.1,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor - Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Shampooing Pantene&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 6.2,
+            &quot;total_price&quot;: 6.2
+        },
+        {
+            &quot;name&quot;: &quot;Gel douche Nivea&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 4.2,
+            &quot;total_price&quot;: 8.4
+        },
+        {
+            &quot;name&quot;: &quot;Café moulu Moka&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 5.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Gel douche Nivea&#x27; field &#x27;unit_price&#x27;: predicted=8.4, expected=4.2</li><li>Item &#x27;Gel douche Nivea&#x27; field &#x27;total_price&#x27;: predicted=16.8, expected=8.4</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 19 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>--
+Total                  5.75
+
+Ticket nº 76543
+Espèces</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 5.75,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 5.75,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 20 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>7  
+Migros Lausanne  
+22.04.2023  
+
+1x Thon en boîte           3.00  
+2x Yoghurt                 2.40  
+3x Banane                1.80  
+
+Total:                    7.20 CHF  
+TVA 2.6%</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.04.2023&quot;,
+    &quot;total&quot;: 7.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Thon en boîte&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.0,
+            &quot;total_price&quot;: 3.0
+        },
+        {
+            &quot;name&quot;: &quot;Yoghurt&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 2.4
+        },
+        {
+            &quot;name&quot;: &quot;Banane&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 0.6,
+            &quot;total_price&quot;: 1.8
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.04.2023&quot;,
+    &quot;total&quot;: 7.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Thon en boîte&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.0,
+            &quot;total_price&quot;: 3.0
+        },
+        {
+            &quot;name&quot;: &quot;Yoghurt&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 2.4
+        },
+        {
+            &quot;name&quot;: &quot;Banane&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 0.6,
+            &quot;total_price&quot;: 1.8
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 21 <span class="score-badge score-good">94%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Chocolats pralinés    1x 14.00 Fr.
+Parfum                 1x 30.00 Fr.
+Crème de nuit          1x 24.50 Fr.
+TVA 8.1%                       5.60 Fr.
+Total                          74.10 Fr.
+Carte - Merci de votre visite.</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 74.1,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolats pralinés&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 14.0,
+            &quot;total_price&quot;: 14.0
+        },
+        {
+            &quot;name&quot;: &quot;Parfum&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 30.0,
+            &quot;total_price&quot;: 30.0
+        },
+        {
+            &quot;name&quot;: &quot;Crème de nuit&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 24.5,
+            &quot;total_price&quot;: 24.5
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 74.1,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Chocolats pralinés&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 14.0,
+            &quot;total_price&quot;: 14.0
+        },
+        {
+            &quot;name&quot;: &quot;Parfum&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 30.0,
+            &quot;total_price&quot;: 30.0
+        },
+        {
+            &quot;name&quot;: &quot;Crème de nuit&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 24.5,
+            &quot;total_price&quot;: 24.5
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;payment_method&#x27;: predicted=None, expected=&#x27;Carte&#x27;</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 22 <span class="score-badge score-bad">60%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+Total hors TVA:              17.85   
+TVA 2.6%:                    0.45   
+Total:                      18.30   
+Carte de crédit</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 18.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Carte de crédit&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Total hors TVA&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 17.85
+        }
+    ]
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 18.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Carte de crédit&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Extra item: &#x27;Total hors TVA&#x27; (not in ground truth)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 23 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Total                 13.93  
+TVA 2.6%               Incl.  
+Carte de débit</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 13.93,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Carte de débit&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 13.93,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Carte de débit&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 24 <span class="score-badge score-bad">67%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>4  
+Denner Nyon  
+07.07.2023  
+
+2x Bière blonde 50cl            1.20  
+1x Jambon cru 100g              3.80  
+Rabais -2.00 CHF               -2.00  
+Total                          3.00  
+
+TVA incluse : 0.08 (2.6%)  
+Paiement: TWINT  
+Ticket N° 329846</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;07.07.2023&quot;,
+    &quot;total&quot;: 3.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Nyon&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bière blonde 50cl&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 2.4
+        },
+        {
+            &quot;name&quot;: &quot;Jambon cru 100g&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;07.07.2023&quot;,
+    &quot;total&quot;: 3.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Nyon&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bière blonde 50cl&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 0.6,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Jambon cru 100g&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        },
+        {
+            &quot;name&quot;: &quot;Rabais&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -2.0
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Bière blonde 50cl&#x27; field &#x27;unit_price&#x27;: predicted=1.2, expected=0.6</li><li>Item &#x27;Bière blonde 50cl&#x27; field &#x27;total_price&#x27;: predicted=2.4, expected=1.2</li><li>Missing item: &#x27;Rabais&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 25 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>8</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 26 <span class="score-badge score-good">95%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+Date: 21.07.2023  Heure: 09:52
+Caissier/e: Anna
+
+2 x Vin rouge          8.90
+1 x Bière blonde       1.40
+1 x Eau minérale       0.95
+1 x Fromage d&#x27;alpage   9.20</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;21.07.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Vin rouge&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 8.9,
+            &quot;total_price&quot;: 17.8
+        },
+        {
+            &quot;name&quot;: &quot;Bière blonde&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.4,
+            &quot;total_price&quot;: 1.4
+        },
+        {
+            &quot;name&quot;: &quot;Eau minérale&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 0.95,
+            &quot;total_price&quot;: 0.95
+        },
+        {
+            &quot;name&quot;: &quot;Fromage d&#x27;alpage&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 9.2,
+            &quot;total_price&quot;: 9.2
+        }
+    ]
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;21.07.2023&quot;,
+    &quot;total&quot;: 29.35,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Vin rouge&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 8.9,
+            &quot;total_price&quot;: 17.8
+        },
+        {
+            &quot;name&quot;: &quot;Bière blonde&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.4,
+            &quot;total_price&quot;: 1.4
+        },
+        {
+            &quot;name&quot;: &quot;Eau minérale&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 0.95,
+            &quot;total_price&quot;: 0.95
+        },
+        {
+            &quot;name&quot;: &quot;Fromage d&#x27;alpage&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 9.2,
+            &quot;total_price&quot;: 9.2
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;total&#x27;: predicted=None, expected=29.35</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 27 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>17  
+Manor Montreux  
+19.12.2022  
+Pull Femme           1x 49.90 Fr.   49.90 Fr.  
+Écharpe              1x 19.50 Fr.   19.50 Fr.  
+  
+Total                69.40 Fr.  
+Paiement : Espèces  
+Caissière : Clara</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;19.12.2022&quot;,
+    &quot;total&quot;: 69.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor Montreux&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pull Femme&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 49.9,
+            &quot;total_price&quot;: 49.9
+        },
+        {
+            &quot;name&quot;: &quot;Écharpe&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 19.5,
+            &quot;total_price&quot;: 19.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;19.12.2022&quot;,
+    &quot;total&quot;: 69.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor Montreux&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pull Femme&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 49.9,
+            &quot;total_price&quot;: 49.9
+        },
+        {
+            &quot;name&quot;: &quot;Écharpe&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 19.5,
+            &quot;total_price&quot;: 19.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 28 <span class="score-badge score-mid">72%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>18  
+Coop Fribourg  
+30.10.2023  
+
+1x Poulet rôti                    11.50 Fr.  
+3x Baguette                         1.20 Fr.  3.60 Fr.  
+Rabais 5%                          -0.75 Fr.  
+
+Tout compris                  14.35 Fr.  
+Paiement : Espèces</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.10.2023&quot;,
+    &quot;total&quot;: 14.35,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 11.5,
+            &quot;total_price&quot;: 11.5
+        },
+        {
+            &quot;name&quot;: &quot;Baguette&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 3.6
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.10.2023&quot;,
+    &quot;total&quot;: 14.35,
+    &quot;currency&quot;: &quot;Fr.&quot;,
+    &quot;store&quot;: &quot;Coop Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 11.5,
+            &quot;total_price&quot;: 11.5
+        },
+        {
+            &quot;name&quot;: &quot;Baguette&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 3.6
+        },
+        {
+            &quot;name&quot;: &quot;Rabais 5%&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -0.75
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;currency&#x27;: predicted=&#x27;CHF&#x27;, expected=&#x27;Fr.&#x27;</li><li>Missing item: &#x27;Rabais 5%&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 29 <span class="score-badge score-mid">89%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Migros - Vevey
+
+01.08.2023
+
+2x    Brochettes de crevettes   12.00
+1x    Sauce cocktail             2.50
+1x    Baguette                   1.50
+
+TOTAL             16.00 Fr.
+Paiement: TWINT</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;01.08.2023&quot;,
+    &quot;total&quot;: 16.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros - Vevey&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Brochettes de crevettes&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 12.0,
+            &quot;total_price&quot;: 24.0
+        },
+        {
+            &quot;name&quot;: &quot;Sauce cocktail&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.5,
+            &quot;total_price&quot;: 2.5
+        },
+        {
+            &quot;name&quot;: &quot;Baguette&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 1.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;01.08.2023&quot;,
+    &quot;total&quot;: 16.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros - Vevey&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Brochettes de crevettes&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 6.0,
+            &quot;total_price&quot;: 12.0
+        },
+        {
+            &quot;name&quot;: &quot;Sauce cocktail&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.5,
+            &quot;total_price&quot;: 2.5
+        },
+        {
+            &quot;name&quot;: &quot;Baguette&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 1.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Brochettes de crevettes&#x27; field &#x27;unit_price&#x27;: predicted=12.0, expected=6.0</li><li>Item &#x27;Brochettes de crevettes&#x27; field &#x27;total_price&#x27;: predicted=24.0, expected=12.0</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 30 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>ALDI - Lausanne
+
+30.08.2023
+
+1x    Beurre 250g          2.10
+1x    Croissants x4        3.50
+3x    Oeufs (12 pcs)       3.00
+1x    Nutella 400g         3.80
+
+TOTAL          12.40 Fr.
+Payé par: Carte</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.08.2023&quot;,
+    &quot;total&quot;: 12.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;ALDI - Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Beurre 250g&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.1,
+            &quot;total_price&quot;: 2.1
+        },
+        {
+            &quot;name&quot;: &quot;Croissants x4&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.5,
+            &quot;total_price&quot;: 3.5
+        },
+        {
+            &quot;name&quot;: &quot;Oeufs (12 pcs)&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 1.0,
+            &quot;total_price&quot;: 3.0
+        },
+        {
+            &quot;name&quot;: &quot;Nutella 400g&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.08.2023&quot;,
+    &quot;total&quot;: 12.4,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;ALDI - Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Beurre 250g&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.1,
+            &quot;total_price&quot;: 2.1
+        },
+        {
+            &quot;name&quot;: &quot;Croissants x4&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.5,
+            &quot;total_price&quot;: 3.5
+        },
+        {
+            &quot;name&quot;: &quot;Oeufs (12 pcs)&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 1.0,
+            &quot;total_price&quot;: 3.0
+        },
+        {
+            &quot;name&quot;: &quot;Nutella 400g&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 31 <span class="score-badge score-mid">73%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>16
+ALDI Suisse
+Route de la Gruyère 12
+1659 Rougemont
+09.08.2023
+
+2x Pain              4.00 Fr.
+3x Concombre         2.40 Fr.
+2x Beurre            3.10 Fr.
+1x Rosé             10.50 Fr.
+
+Total            : 20.00 Fr.
+Paiement: Carte</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;09.08.2023&quot;,
+    &quot;total&quot;: 20.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;ALDI Suisse&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pain&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 4.0,
+            &quot;total_price&quot;: 8.0
+        },
+        {
+            &quot;name&quot;: &quot;Concombre&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 2.4,
+            &quot;total_price&quot;: 7.2
+        },
+        {
+            &quot;name&quot;: &quot;Beurre&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 3.1,
+            &quot;total_price&quot;: 6.2
+        },
+        {
+            &quot;name&quot;: &quot;Rosé&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 10.5,
+            &quot;total_price&quot;: 10.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;09.08.2023&quot;,
+    &quot;total&quot;: 20.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;ALDI Suisse&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pain&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 2.0,
+            &quot;total_price&quot;: 4.0
+        },
+        {
+            &quot;name&quot;: &quot;Concombre&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 0.8,
+            &quot;total_price&quot;: 2.4
+        },
+        {
+            &quot;name&quot;: &quot;Beurre&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.55,
+            &quot;total_price&quot;: 3.1
+        },
+        {
+            &quot;name&quot;: &quot;Rosé&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 10.5,
+            &quot;total_price&quot;: 10.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Beurre&#x27; field &#x27;unit_price&#x27;: predicted=3.1, expected=1.55</li><li>Item &#x27;Beurre&#x27; field &#x27;total_price&#x27;: predicted=6.2, expected=3.1</li><li>Item &#x27;Concombre&#x27; field &#x27;unit_price&#x27;: predicted=2.4, expected=0.8</li><li>Item &#x27;Concombre&#x27; field &#x27;total_price&#x27;: predicted=7.2, expected=2.4</li><li>Item &#x27;Pain&#x27; field &#x27;unit_price&#x27;: predicted=4.0, expected=2.0</li><li>Item &#x27;Pain&#x27; field &#x27;total_price&#x27;: predicted=8.0, expected=4.0</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 32 <span class="score-badge score-bad">60%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+                    Total : 27.20
+TVA: 8.1%
+Paiement par carte
+
+6
+Migros Restaurant
+Rue de Carouge 45
+1205 Genève</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 27.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Restaurant&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;6&quot;,
+            &quot;quantity&quot;: 6,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: null
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 27.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Restaurant&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: &quot;carte&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Extra item: &#x27;6&#x27; (not in ground truth)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 33 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+                  Total : 15.20
+Paiement : TWINT
+
+7
+Aldi
+Route de Meyrin 23
+1217 Meyrin</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 15.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi&quot;,
+    &quot;items&quot;: null,
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: null,
+    &quot;total&quot;: 15.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 34 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Restaurant Migros Neuchâtel
+Place Pury
+
+23.05.2023
+
+1 x Sandwich poulet     6.45
+1 x Eau minérale        2.30</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;23.05.2023&quot;,
+    &quot;total&quot;: 8.75,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Sandwich poulet&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 6.45,
+            &quot;total_price&quot;: 6.45
+        },
+        {
+            &quot;name&quot;: &quot;Eau minérale&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.3,
+            &quot;total_price&quot;: 2.3
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;23.05.2023&quot;,
+    &quot;total&quot;: 8.75,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Restaurant Migros Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Sandwich poulet&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 6.45,
+            &quot;total_price&quot;: 6.45
+        },
+        {
+            &quot;name&quot;: &quot;Eau minérale&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.3,
+            &quot;total_price&quot;: 2.3
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 35 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>5  
+Aldi Fribourg  
+17.07.2023  
+Poulet rôti          1 x 10.00 Fr.   10.00 Fr.  
+Salade iceberg       1 x 1.20 Fr.     1.20 Fr.  
+Fromage Gruyère      1 x 5.50 Fr.     5.50 Fr.  
+  
+Total                16.70 Fr.  
+Numéro de ticket : 678990</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;17.07.2023&quot;,
+    &quot;total&quot;: 16.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 10.0,
+            &quot;total_price&quot;: 10.0
+        },
+        {
+            &quot;name&quot;: &quot;Salade iceberg&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Gruyère&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 5.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;17.07.2023&quot;,
+    &quot;total&quot;: 16.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Poulet rôti&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 10.0,
+            &quot;total_price&quot;: 10.0
+        },
+        {
+            &quot;name&quot;: &quot;Salade iceberg&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Gruyère&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 5.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 36 <span class="score-badge score-bad">64%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>10
+Aligro
+Avenue de Morgarten 15
+2505 Bienne
+14.07.2023
+
+5x Tomates            6.25 Fr.
+3x Pâtes              3.30 Fr.
+2x Sauce tomate       2.80 Fr.
+1x Vin blanc          8.50 Fr.
+
+Total  : 20.85 Fr.
+TVA 8.1%
+
+Caissier: Lionel Th.</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;14.07.2023&quot;,
+    &quot;total&quot;: 20.85,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Tomates&quot;,
+            &quot;quantity&quot;: 5,
+            &quot;unit_price&quot;: 6.25,
+            &quot;total_price&quot;: 31.25
+        },
+        {
+            &quot;name&quot;: &quot;Pâtes&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 3.3,
+            &quot;total_price&quot;: 9.9
+        },
+        {
+            &quot;name&quot;: &quot;Sauce tomate&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 2.8,
+            &quot;total_price&quot;: 5.6
+        },
+        {
+            &quot;name&quot;: &quot;Vin blanc&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 8.5,
+            &quot;total_price&quot;: 8.5
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;14.07.2023&quot;,
+    &quot;total&quot;: 20.85,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aligro&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Tomates&quot;,
+            &quot;quantity&quot;: 5.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 6.25
+        },
+        {
+            &quot;name&quot;: &quot;Pâtes&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 3.3
+        },
+        {
+            &quot;name&quot;: &quot;Sauce tomate&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 2.8
+        },
+        {
+            &quot;name&quot;: &quot;Vin blanc&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 8.5
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;store&#x27;: predicted=None, expected=&#x27;Aligro&#x27;</li><li>Item &#x27;Vin blanc&#x27; field &#x27;unit_price&#x27;: predicted=8.5, expected=None</li><li>Item &#x27;Sauce tomate&#x27; field &#x27;unit_price&#x27;: predicted=2.8, expected=None</li><li>Item &#x27;Sauce tomate&#x27; field &#x27;total_price&#x27;: predicted=5.6, expected=2.8</li><li>Item &#x27;Pâtes&#x27; field &#x27;unit_price&#x27;: predicted=3.3, expected=None</li><li>Item &#x27;Pâtes&#x27; field &#x27;total_price&#x27;: predicted=9.9, expected=3.3</li><li>Item &#x27;Tomates&#x27; field &#x27;unit_price&#x27;: predicted=6.25, expected=None</li><li>Item &#x27;Tomates&#x27; field &#x27;total_price&#x27;: predicted=31.25, expected=6.25</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 37 <span class="score-badge score-mid">89%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>Aldi
+04.05.2022
+
+3x Bananes                4.20 Fr
+1x Riz 1 kg                  2.20 Fr
+1x Thon en boîte 80g 1.10 Fr
+
+Total de l’achat       7.50 Fr
+TVA 2.6% comprise
+Mode de Paiement: Espèces</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;04.05.2022&quot;,
+    &quot;total&quot;: 7.5,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bananes&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 4.2,
+            &quot;total_price&quot;: 12.6
+        },
+        {
+            &quot;name&quot;: &quot;Riz 1 kg&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.2,
+            &quot;total_price&quot;: 2.2
+        },
+        {
+            &quot;name&quot;: &quot;Thon en boîte 80g&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.1,
+            &quot;total_price&quot;: 1.1
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;04.05.2022&quot;,
+    &quot;total&quot;: 7.5,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bananes&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 1.4,
+            &quot;total_price&quot;: 4.2
+        },
+        {
+            &quot;name&quot;: &quot;Riz 1 kg&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.2,
+            &quot;total_price&quot;: 2.2
+        },
+        {
+            &quot;name&quot;: &quot;Thon en boîte 80g&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.1,
+            &quot;total_price&quot;: 1.1
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Bananes&#x27; field &#x27;unit_price&#x27;: predicted=4.2, expected=1.4</li><li>Item &#x27;Bananes&#x27; field &#x27;total_price&#x27;: predicted=12.6, expected=4.2</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 38 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>14
+Denner Neuchâtel
+17.04.2023
+
+Bière blonde       3 x 2.00      6.00 Fr.
+Papier cuisne    1 x 2.50      2.50 Fr.
+Noisettens         1 x 3.70      3.70 Fr.
+
+Total à régler              12.20 Fr.
+TVA 2.6%                  0.32 Fr.
+Espèces
+
+Merci de votre visite</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;17.04.2023&quot;,
+    &quot;total&quot;: 12.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bière blonde&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 2.0,
+            &quot;total_price&quot;: 6.0
+        },
+        {
+            &quot;name&quot;: &quot;Papier cuisne&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.5,
+            &quot;total_price&quot;: 2.5
+        },
+        {
+            &quot;name&quot;: &quot;Noisettens&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.7,
+            &quot;total_price&quot;: 3.7
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;17.04.2023&quot;,
+    &quot;total&quot;: 12.2,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Denner Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Bière blonde&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 2.0,
+            &quot;total_price&quot;: 6.0
+        },
+        {
+            &quot;name&quot;: &quot;Papier cuisne&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.5,
+            &quot;total_price&quot;: 2.5
+        },
+        {
+            &quot;name&quot;: &quot;Noisettens&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.7,
+            &quot;total_price&quot;: 3.7
+        }
+    ],
+    &quot;vat_rate&quot;: 2.6,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 39 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>19  
+Coop Genève  
+Date: 30.06.2022  
+
+1 x Pain pavot               1.80  
+2 x Jus fruités               3.60  
+1 x Fromage Brie          4.90  
+
+Rabais: -5%  
+Total                 8.68  
+Paiement : Carte</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.06.2022&quot;,
+    &quot;total&quot;: 8.68,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Genève&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pain pavot&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        },
+        {
+            &quot;name&quot;: &quot;Jus fruités&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 3.6
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Brie&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 4.9,
+            &quot;total_price&quot;: 4.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;30.06.2022&quot;,
+    &quot;total&quot;: 8.68,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Genève&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pain pavot&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        },
+        {
+            &quot;name&quot;: &quot;Jus fruités&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 3.6
+        },
+        {
+            &quot;name&quot;: &quot;Fromage Brie&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 4.9,
+            &quot;total_price&quot;: 4.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 40 <span class="score-badge score-mid">82%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>13
+COOP Meyrin
+Av. de Vaudagne 1
+1217 Meyrin
+
+Date : 14.10.2023
+
+1 x Pommes Tableau 1 kg   3.75
+1 x Jus d&#x27;orange 1L          2.90
+1 x Yogourt nature 180g  0.90
+
+Rabais -1,00
+
+Total                    6.55 CHF
+
+Mode de paiement : TWINT</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;14.10.2023&quot;,
+    &quot;total&quot;: 6.55,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;COOP Meyrin&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pommes Tableau 1 kg&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.75,
+            &quot;total_price&quot;: 3.75
+        },
+        {
+            &quot;name&quot;: &quot;Jus d&#x27;orange 1L&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.9,
+            &quot;total_price&quot;: 2.9
+        },
+        {
+            &quot;name&quot;: &quot;Yogourt nature 180g&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 0.9,
+            &quot;total_price&quot;: 0.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;14.10.2023&quot;,
+    &quot;total&quot;: 6.55,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;COOP Meyrin&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Pommes Tableau 1 kg&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.75,
+            &quot;total_price&quot;: 3.75
+        },
+        {
+            &quot;name&quot;: &quot;Jus d&#x27;orange 1L&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.9,
+            &quot;total_price&quot;: 2.9
+        },
+        {
+            &quot;name&quot;: &quot;Yogourt nature 180g&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 0.9,
+            &quot;total_price&quot;: 0.9
+        },
+        {
+            &quot;name&quot;: &quot;Rabais&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: -1.0,
+            &quot;total_price&quot;: -1.0
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Missing item: &#x27;Rabais&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 41 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>--  
+
+3
+Aldi Sierre  
+22.07.2022</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.07.2022&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Sierre&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;22.07.2022&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Sierre&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 42 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>15  
+Migros Fribourg  
+Date: 27.09.2023  
+
+1 x Lait entier               1.20  
+1 x Beurre doux           2.50  
+
+Total                    3.70  
+Paiement : Carte</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;27.09.2023&quot;,
+    &quot;total&quot;: 3.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Lait entier&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Beurre doux&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.5,
+            &quot;total_price&quot;: 2.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;27.09.2023&quot;,
+    &quot;total&quot;: 3.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Fribourg&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Lait entier&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.2,
+            &quot;total_price&quot;: 1.2
+        },
+        {
+            &quot;name&quot;: &quot;Beurre doux&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.5,
+            &quot;total_price&quot;: 2.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 43 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+
+3
+Aldi Neuchâtel
+16.09.2022
+
+Salade verte      1 x 1.95  Fr.
+Lait entier         1 x 1.25  Fr.
+Café instant.      1 x 4.50  Fr.
+
+Total:                7.70  Fr.
+Espèces:            10.00 Fr.
+Rendu:              2.30  Fr.</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;16.09.2022&quot;,
+    &quot;total&quot;: 7.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Salade verte&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.95,
+            &quot;total_price&quot;: 1.95
+        },
+        {
+            &quot;name&quot;: &quot;Lait entier&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.25,
+            &quot;total_price&quot;: 1.25
+        },
+        {
+            &quot;name&quot;: &quot;Café instant.&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 4.5,
+            &quot;total_price&quot;: 4.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;16.09.2022&quot;,
+    &quot;total&quot;: 7.7,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aldi Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Salade verte&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.95,
+            &quot;total_price&quot;: 1.95
+        },
+        {
+            &quot;name&quot;: &quot;Lait entier&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.25,
+            &quot;total_price&quot;: 1.25
+        },
+        {
+            &quot;name&quot;: &quot;Café instant.&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 4.5,
+            &quot;total_price&quot;: 4.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 44 <span class="score-badge score-good">91%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>COOP - Nyon
+
+18.01.2023
+
+1x    Jus de pomme 1L           2.20
+2x    Yaourt nature             1.60
+1x    Croque-Monsieur           3.80
+1x    Lentilles                  1.50
+
+TOTAL               9.10 Fr.
+TVA incl.
+
+Merci de votre achat!</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;18.01.2023&quot;,
+    &quot;total&quot;: 9.1,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;COOP - Nyon&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Jus de pomme 1L&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.2,
+            &quot;total_price&quot;: 2.2
+        },
+        {
+            &quot;name&quot;: &quot;Yaourt nature&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 1.6,
+            &quot;total_price&quot;: 3.2
+        },
+        {
+            &quot;name&quot;: &quot;Croque-Monsieur&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        },
+        {
+            &quot;name&quot;: &quot;Lentilles&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 1.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;18.01.2023&quot;,
+    &quot;total&quot;: 9.1,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;COOP - Nyon&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Jus de pomme 1L&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.2,
+            &quot;total_price&quot;: 2.2
+        },
+        {
+            &quot;name&quot;: &quot;Yaourt nature&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 0.8,
+            &quot;total_price&quot;: 1.6
+        },
+        {
+            &quot;name&quot;: &quot;Croque-Monsieur&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.8,
+            &quot;total_price&quot;: 3.8
+        },
+        {
+            &quot;name&quot;: &quot;Lentilles&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.5,
+            &quot;total_price&quot;: 1.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Yaourt nature&#x27; field &#x27;unit_price&#x27;: predicted=1.6, expected=0.8</li><li>Item &#x27;Yaourt nature&#x27; field &#x27;total_price&#x27;: predicted=3.2, expected=1.6</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 45 <span class="score-badge score-bad">68%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>11  
+Migros Neuchâtel  
+Date: 13.09.2022  
+  
+2x Tarte aux fruits     7.30 Fr.   
+1x Pomme               1.25 Fr.   
+3x Café grains         5.40 Fr.   
+  
+Rabais - 1.00 Fr.  
+Total                12.95 Fr.  
+TVA incl. : 8.1%</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;13.09.2022&quot;,
+    &quot;total&quot;: 12.95,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Tarte aux fruits&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 3.65,
+            &quot;total_price&quot;: 7.3
+        },
+        {
+            &quot;name&quot;: &quot;Pomme&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.25,
+            &quot;total_price&quot;: 1.25
+        },
+        {
+            &quot;name&quot;: &quot;Café grains&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 5.4
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;13.09.2022&quot;,
+    &quot;total&quot;: 12.95,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Neuchâtel&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Tarte aux fruits&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 7.3
+        },
+        {
+            &quot;name&quot;: &quot;Pomme&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 1.25
+        },
+        {
+            &quot;name&quot;: &quot;Café grains&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: 5.4
+        },
+        {
+            &quot;name&quot;: &quot;Rabais&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -1.0
+        }
+    ],
+    &quot;vat_rate&quot;: 8.1,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Café grains&#x27; field &#x27;unit_price&#x27;: predicted=1.8, expected=None</li><li>Item &#x27;Pomme&#x27; field &#x27;unit_price&#x27;: predicted=1.25, expected=None</li><li>Item &#x27;Tarte aux fruits&#x27; field &#x27;unit_price&#x27;: predicted=3.65, expected=None</li><li>Missing item: &#x27;Rabais&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 46 <span class="score-badge score-good">94%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>2  
+Coop Morges   
+03.07.2023  
+  
+1 x Fromage Gruyère 150g   5.90  
+3 x Tomates 500g           2.70  8.10  
+1 x Bière locale           1.80  
+
+Total                     15.80  
+Rabais Coop               -1.00  
+
+Total à payer             14.80  
+TWINT</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;03.07.2023&quot;,
+    &quot;total&quot;: 14.8,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Morges&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Fromage Gruyère 150g&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 5.9,
+            &quot;total_price&quot;: 5.9
+        },
+        {
+            &quot;name&quot;: &quot;Tomates 500g&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 0.9,
+            &quot;total_price&quot;: 8.1
+        },
+        {
+            &quot;name&quot;: &quot;Bière locale&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;03.07.2023&quot;,
+    &quot;total&quot;: 14.8,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Coop Morges&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Fromage Gruyère 150g&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 5.9,
+            &quot;total_price&quot;: 5.9
+        },
+        {
+            &quot;name&quot;: &quot;Tomates 500g&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 2.7,
+            &quot;total_price&quot;: 8.1
+        },
+        {
+            &quot;name&quot;: &quot;Bière locale&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;TWINT&quot;
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Tomates 500g&#x27; field &#x27;unit_price&#x27;: predicted=0.9, expected=2.7</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 47 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>20  
+Migros Lausanne  
+Date: 08.10.2023  
+
+1 x Café expresso         2.80  
+1 x Tartelettes framboise   3.50  
+
+Total                    6.30  
+Paiement : en espèces</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;08.10.2023&quot;,
+    &quot;total&quot;: 6.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Café expresso&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 2.8,
+            &quot;total_price&quot;: 2.8
+        },
+        {
+            &quot;name&quot;: &quot;Tartelettes framboise&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 3.5,
+            &quot;total_price&quot;: 3.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;espèces&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;08.10.2023&quot;,
+    &quot;total&quot;: 6.3,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Migros Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Café expresso&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 2.8,
+            &quot;total_price&quot;: 2.8
+        },
+        {
+            &quot;name&quot;: &quot;Tartelettes framboise&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 3.5,
+            &quot;total_price&quot;: 3.5
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;espèces&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 48 <span class="score-badge score-mid">70%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>-
+Date:23.01.2023  Heure: 18:37
+Caissier/e: Lea
+
+3 x Œufs 12p              5.50
+1 x Poulet entier     11.20
+1 x Salade verte        1.80
+2 x Fromage râpé       6.80
+1 x Saumon fumé       8.10
+- Rabais -5%          -1.59</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;23.01.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Œufs 12p&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: 16.5
+        },
+        {
+            &quot;name&quot;: &quot;Poulet entier&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 11.2,
+            &quot;total_price&quot;: 11.2
+        },
+        {
+            &quot;name&quot;: &quot;Salade verte&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: 1.8
+        },
+        {
+            &quot;name&quot;: &quot;Fromage râpé&quot;,
+            &quot;quantity&quot;: 2,
+            &quot;unit_price&quot;: 6.8,
+            &quot;total_price&quot;: 13.6
+        },
+        {
+            &quot;name&quot;: &quot;Saumon fumé&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 8.1,
+            &quot;total_price&quot;: 8.1
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;23.01.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Œufs 12p&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 5.5,
+            &quot;total_price&quot;: null
+        },
+        {
+            &quot;name&quot;: &quot;Poulet entier&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 11.2,
+            &quot;total_price&quot;: null
+        },
+        {
+            &quot;name&quot;: &quot;Salade verte&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.8,
+            &quot;total_price&quot;: null
+        },
+        {
+            &quot;name&quot;: &quot;Fromage râpé&quot;,
+            &quot;quantity&quot;: 2.0,
+            &quot;unit_price&quot;: 6.8,
+            &quot;total_price&quot;: null
+        },
+        {
+            &quot;name&quot;: &quot;Saumon fumé&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 8.1,
+            &quot;total_price&quot;: null
+        },
+        {
+            &quot;name&quot;: &quot;Rabais -5%&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: -1.59
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Item &#x27;Saumon fumé&#x27; field &#x27;total_price&#x27;: predicted=8.1, expected=None</li><li>Item &#x27;Fromage râpé&#x27; field &#x27;total_price&#x27;: predicted=13.6, expected=None</li><li>Item &#x27;Salade verte&#x27; field &#x27;total_price&#x27;: predicted=1.8, expected=None</li><li>Item &#x27;Poulet entier&#x27; field &#x27;total_price&#x27;: predicted=11.2, expected=None</li><li>Item &#x27;Œufs 12p&#x27; field &#x27;total_price&#x27;: predicted=16.5, expected=None</li><li>Missing item: &#x27;Rabais -5%&#x27; (not found in prediction)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 49 <span class="score-badge score-bad">50%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>--  
+
+8
+Aligro Renens  
+16.10.2023</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;16.10.2023&quot;,
+    &quot;total&quot;: null,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aligro Renens&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;8&quot;,
+            &quot;quantity&quot;: null,
+            &quot;unit_price&quot;: null,
+            &quot;total_price&quot;: null
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;16.10.2023&quot;,
+    &quot;total&quot;: 8.0,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Aligro Renens&quot;,
+    &quot;items&quot;: [],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: null
+}</pre>
+                </div>
+            </div>
+            <div class="errors"><ul><li>Field &#x27;total&#x27;: predicted=None, expected=8.0</li><li>Extra item: &#x27;8&#x27; (not in ground truth)</li></ul></div>
+        </div>
+        
+        <div class="entry">
+            <div class="header">Entrée 50 <span class="score-badge score-good">100%</span></div>
+            <div class="container">
+                <div class="col col-input">
+                    <h3>Ticket (texte brut)</h3>
+                    <pre>15
+Manor Lausanne
+05.10.2022
+
+Lait entier           1 x 1.60 Fr.
+Butter croissant      3 x 1.30 Fr.
+
+Total                 5.50 Fr.
+
+Carte de crédit</pre>
+                </div>
+                <div class="col col-model">
+                    <h3>Sortie du modèle</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;05.10.2022&quot;,
+    &quot;total&quot;: 5.5,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Lait entier&quot;,
+            &quot;quantity&quot;: 1,
+            &quot;unit_price&quot;: 1.6,
+            &quot;total_price&quot;: 1.6
+        },
+        {
+            &quot;name&quot;: &quot;Butter croissant&quot;,
+            &quot;quantity&quot;: 3,
+            &quot;unit_price&quot;: 1.3,
+            &quot;total_price&quot;: 3.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte de crédit&quot;
+}</pre>
+                </div>
+                <div class="col col-truth">
+                    <h3>Vérité terrain</h3>
+                    <pre>{
+    &quot;date&quot;: &quot;05.10.2022&quot;,
+    &quot;total&quot;: 5.5,
+    &quot;currency&quot;: &quot;CHF&quot;,
+    &quot;store&quot;: &quot;Manor Lausanne&quot;,
+    &quot;items&quot;: [
+        {
+            &quot;name&quot;: &quot;Lait entier&quot;,
+            &quot;quantity&quot;: 1.0,
+            &quot;unit_price&quot;: 1.6,
+            &quot;total_price&quot;: 1.6
+        },
+        {
+            &quot;name&quot;: &quot;Butter croissant&quot;,
+            &quot;quantity&quot;: 3.0,
+            &quot;unit_price&quot;: 1.3,
+            &quot;total_price&quot;: 3.9
+        }
+    ],
+    &quot;vat_rate&quot;: null,
+    &quot;payment_method&quot;: &quot;Carte de crédit&quot;
+}</pre>
+                </div>
+            </div>
+            
+        </div>
+        
+    </body>
+    </html>
+    

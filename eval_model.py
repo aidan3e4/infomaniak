@@ -13,12 +13,12 @@ from score import score_receipt
 # Configuration
 # ====================
 MODEL_NAME = "Qwen/Qwen3-4B-Instruct-2507"
-LORA_ADAPTER = "aidan3e4/receipt-lora-qwen3-4b"  # set to None to eval base model only
+LORA_ADAPTER = None # "aidan3e4/receipt-lora-qwen3-4b"  # set to None to eval base model only
 MODEL_BASE_URL = "http://localhost:8000/v1"  # vLLM default
 MODEL_API_KEY = "token-abc123"  # vLLM doesn't need a real key
-DATASET_FILE = "receipt_dataset.jsonl"
+DATASET_FILE = "receipt_dataset_1000_test.jsonl"
 EVAL_DIR = "eval"
-MAX_CONCURRENT = 5
+MAX_CONCURRENT = 10
 NUM_ENTRIES = None  # None = all entries
 
 # =====================================================================
