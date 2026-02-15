@@ -13,12 +13,28 @@ from score import score_receipt
 # Configuration
 # ====================
 MODEL_NAME = "Qwen/Qwen3-4B-Instruct-2507"
+LORA_ADAPTER = "aidan3e4/receipt-lora-qwen3-4b"  # set to None to eval base model only
 MODEL_BASE_URL = "http://localhost:8000/v1"  # vLLM default
 MODEL_API_KEY = "token-abc123"  # vLLM doesn't need a real key
 DATASET_FILE = "receipt_dataset.jsonl"
 EVAL_DIR = "eval"
 MAX_CONCURRENT = 5
 NUM_ENTRIES = None  # None = all entries
+
+# =====================================================================
+# vLLM launch commands:
+#
+# Base model only:
+#   vllm serve Qwen/Qwen3-4B-Instruct-2507
+#
+# With LoRA adapter:
+#   vllm serve Qwen/Qwen3-4B-Instruct-2507 \
+#     --enable-lora \
+#     --lora-modules receipt-lora=aidan3e4/receipt-lora-qwen3-4b
+#
+# When using LoRA, set MODEL_NAME below to the lora module name:
+#   MODEL_NAME = "receipt-lora"
+# =====================================================================
 
 # ====================
 # Client
@@ -118,6 +134,7 @@ def generate_html(config: dict, results: list[dict], scoring: dict, output_path:
         <div class="config">
             <h2>Configuration</h2>
             <p><strong>Modèle :</strong> {html_module.escape(config["model_name"])}</p>
+            <p><strong>LoRA adapter :</strong> {html_module.escape(config.get("lora_adapter") or "None (base model)")}</p>
             <p><strong>Date :</strong> {html_module.escape(config["datetime"])}</p>
             <p><strong>Entrées évaluées :</strong> {config["num_entries"]}</p>
             <p><strong>System prompt :</strong></p>
@@ -213,6 +230,7 @@ async def main():
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     config = {
         "model_name": MODEL_NAME,
+        "lora_adapter": LORA_ADAPTER,
         "datetime": now.isoformat(),
         "num_entries": len(results),
         "system_prompt": SYSTEM_PROMPT,
@@ -251,7 +269,8 @@ async def main():
 
     os.makedirs(EVAL_DIR, exist_ok=True)
     safe_model_name = MODEL_NAME.replace("/", "_")
-    base_name = f"{safe_model_name}_{timestamp}"
+    lora_suffix = f"_lora_{LORA_ADAPTER.split('/')[-1]}" if LORA_ADAPTER else "_base"
+    base_name = f"{safe_model_name}{lora_suffix}_{timestamp}"
     json_path = os.path.join(EVAL_DIR, f"{base_name}.json")
     html_path = os.path.join(EVAL_DIR, f"{base_name}.html")
 

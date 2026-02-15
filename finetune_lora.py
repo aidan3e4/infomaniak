@@ -20,6 +20,7 @@ from trl import SFTTrainer, SFTConfig
 MODEL_NAME = "Qwen/Qwen3-4B-Instruct-2507"
 DATASET_FILE = "receipt_dataset.jsonl"
 OUTPUT_DIR = "./receipt-lora-output"
+HF_REPO_ID = "aidan3e4/receipt-lora-qwen3-4b"
 MAX_SEQ_LENGTH = 2048
 
 # LoRA params
@@ -114,10 +115,9 @@ trainer = SFTTrainer(
 trainer.train()
 
 # ====================
-# Save LoRA adapter
+# Push LoRA adapter to HF Hub
 # ====================
-ADAPTER_DIR = f"{OUTPUT_DIR}/final-adapter"
-print(f"Saving LoRA adapter to {ADAPTER_DIR}...")
-model.save_pretrained(ADAPTER_DIR)
-tokenizer.save_pretrained(ADAPTER_DIR)
+print(f"Pushing LoRA adapter to {HF_REPO_ID}...")
+model.push_to_hub(HF_REPO_ID, private=True)
+tokenizer.push_to_hub(HF_REPO_ID, private=True)
 print("Done!")
